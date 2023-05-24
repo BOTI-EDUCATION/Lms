@@ -7,4 +7,4 @@ assets/schools/*
 spa/**/node_modules
 pass.txt
 dashboard_scripts/
-libs
+# libs
