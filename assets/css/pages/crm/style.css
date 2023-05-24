@@ -1,0 +1,143 @@
+.search-wrapper{
+    width: 100%;
+    margin: 0px 10px;
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    min-height: 48px;
+    border-radius: 6px;
+    padding: 0 16px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #CCCAEC !important;
+    background-color: rgb(255 255 255 / 1)!important;
+    box-shadow:  0 0 #0000, 0 0 #0000,0 1px 2px 0 rgb(0 0 0 / .05) !important;
+    border-radius: 20px;
+    align-items: center;
+    min-height: 40px;
+}
+
+.search-wrapper i{
+    color: #8380D8;
+    margin-right: 12px;
+}
+
+.search-input{
+    border: none;
+    width: 100%;
+    outline: 0;
+}
+
+.search-input::placeholder {
+    color: #CCCAEC;
+}
+
+.listing-leads .listing-header{
+    padding-left: 2rem!important;
+    padding-right: 2rem!important;
+    text-transform: uppercase!important;
+    font-weight: 500!important;
+    background: rgb(248 250 252);
+    color: #64748b;
+    top: 0px!important;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+    z-index: 10;
+}
+
+.listing-items{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.listing-item{
+    padding: 15px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.listing-item:hover{
+    background-color: rgb(241 245 249 / 1);
+}
+
+.btn-main{
+   display: flex;
+   align-items: center;
+   color: #fff;
+   background-color: #7E77FF;
+} 
+
+
+.btn-round{
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    place-content: center;
+}
+
+.img-round{
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}
+
+.badge-main{
+    background-color: #7E77FF;
+    color: #fff;
+    padding: 4px;
+    border-radius: 13px;
+}
+
+a:hover{
+    text-decoration: none;
+}
+
+.banner{
+    overflow: hidden;
+    height: 200px;
+}
+
+.banner img{
+    width: 100%;
+}
+
+.profile{
+    position: relative;
+    top: -75px;
+    left: 30px;
+}
+
+.profile .photo-profile{
+    /* position: relative;
+    top: -75px; */
+    height: 150px;
+    width: 150px;
+    border-radius: 100%;
+    border: 5px solid #fff;
+}
+
+.profile .btn-edit{
+    position: absolute;
+    bottom: 15px;
+    right: 10px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    color: rgb(30, 41, 59);
+    padding: 0 20px!important;
+    border-radius: 9999px!important;
+    min-width: 64px;
+    min-height: 40px;
+}
+
+.details-list{
+    list-style: none;
+}
+
+.details-list li{
+    display: flex;
+    margin: 10px 0px;
+}
+
+.details-list .details{
+    margin-left: 30px;
+}

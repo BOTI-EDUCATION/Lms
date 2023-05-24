@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="3157.89 111.908 34.435 38.9">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #4799e8;
+      }
+
+      .cls-2 {
+        fill: #0a0b0b;
+      }
+
+      .cls-3 {
+        fill: none;
+        stroke: #4799e8;
+        stroke-miterlimit: 10;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <g id="EN_COURS" data-name="EN COURS" transform="translate(3237.89 -91.814)">
+    <rect id="Rectangle_45" data-name="Rectangle 45" class="cls-1" width="17.318" height="2.553" transform="translate(-71.52 213.526)"/>
+    <rect id="Rectangle_46" data-name="Rectangle 46" class="cls-1" width="17.318" height="2.553" transform="translate(-71.52 220.522)"/>
+    <rect id="Rectangle_47" data-name="Rectangle 47" class="cls-1" width="9.71" height="2.553" transform="translate(-71.52 227.589)"/>
+    <path id="Tracé_59" data-name="Tracé 59" class="cls-2" d="M-47.61,203.722H-80v38.352h15.458v-2.022H-77.714V205.921h29.859v19.61h2.134V203.722Z" transform="translate(0 0)"/>
+    <circle id="Ellipse_10" data-name="Ellipse 10" class="cls-3" cx="7.126" cy="7.126" r="7.126" transform="translate(-60.567 227.621)"/>
+    <circle id="Ellipse_11" data-name="Ellipse 11" class="cls-1" cx="0.928" cy="0.928" r="0.928" transform="translate(-56.857 233.819)"/>
+    <circle id="Ellipse_12" data-name="Ellipse 12" class="cls-1" cx="0.928" cy="0.928" r="0.928" transform="translate(-54.369 233.819)"/>
+    <circle id="Ellipse_13" data-name="Ellipse 13" class="cls-1" cx="0.928" cy="0.928" r="0.928" transform="translate(-51.881 233.819)"/>
+  </g>
+</svg>

@@ -1,0 +1,54 @@
+Date,Eleve,Classe,Cycle,MotherCompetence,Competence,score,scoreCode,scoreLabel
+2022-02-16 13:00:32,BENGHALEM  ghali,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,50.0,A,Maîtrise satisfaisante
+2022-02-16 13:00:32,BOURRABIA  soulaimane ,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,33.0,B,Pesque maîtrisé 
+2022-02-16 13:00:32,ECH-CHOUIKH  yacout ,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,25.0,C,Maîtrisé fragile
+2022-02-16 13:00:32,EL - HARIM  Fahd,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,18.0,D,Début de maîtrise
+2022-02-16 13:00:32,EL ABBASSI  nour,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,10.0,E,Maîtrise insuffisante
+,BENGHALEM  ghali,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,,A,Maîtrise satisfaisante
+,BOURRABIA  soulaimane ,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,,B,Pesque maîtrisé 
+,ECH-CHOUIKH  yacout ,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,,C,Maîtrisé fragile
+,EL - HARIM  Fahd,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,,D,Début de maîtrise
+,EL ABBASSI  nour,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,,E,Maîtrise insuffisante
+2022-02-16 13:00:27,BENGHALEM  ghali,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,Je joue avec les autres enfants ,33.0,B,Pesque maîtrisé 
+2022-02-16 13:00:27,BOURRABIA  soulaimane ,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,Je joue avec les autres enfants ,25.0,C,Maîtrisé fragile
+2022-02-16 13:00:27,ECH-CHOUIKH  yacout ,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,Je joue avec les autres enfants ,50.0,A,Maîtrise satisfaisante
+2022-02-16 13:00:27,EL - HARIM  Fahd,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,Je joue avec les autres enfants ,10.0,E,Maîtrise insuffisante
+2022-02-16 13:00:27,EL ABBASSI  nour,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,Je joue avec les autres enfants ,50.0,A,Maîtrise satisfaisante
+2022-02-16 13:00:27,EL IBRAHYMY  ziad ,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,Je joue avec les autres enfants ,10.0,E,Maîtrise insuffisante
+2022-02-16 13:00:27,EL MEJJATY  ahmed ,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,Je joue avec les autres enfants ,33.0,B,Pesque maîtrisé 
+2022-02-16 13:00:32,EL MEJJATY  ahmed ,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,33.0,B,Pesque maîtrisé 
+2022-02-16 13:00:32,ELMIR  mustapha ,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,25.0,C,Maîtrisé fragile
+2022-02-16 13:00:32,SETATI  oumnia,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,18.0,D,Début de maîtrise
+,BENGHALEM  ghali,Moyenne section G1,Préscolaire,Apprendre à être autonome ,Je reconnais mon étiquette de présence ,,A,Maîtrise satisfaisante
+,BOURRABIA  soulaimane ,Moyenne section G1,Préscolaire,Apprendre à être autonome ,Je reconnais mon étiquette de présence ,,B,Pesque maîtrisé 
+,ECH-CHOUIKH  yacout ,Moyenne section G1,Préscolaire,Apprendre à être autonome ,Je reconnais mon étiquette de présence ,,E,Maîtrise insuffisante
+,EL - HARIM  Fahd,Moyenne section G1,Préscolaire,Apprendre à être autonome ,Je reconnais mon étiquette de présence ,,B,Pesque maîtrisé 
+,EL IBRAHYMY  ziad ,Moyenne section G1,Préscolaire,Apprendre à être autonome ,Je reconnais mon étiquette de présence ,,D,Début de maîtrise
+,BENGHALEM  ghali,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,,C,Maîtrisé fragile
+,BOURRABIA  soulaimane ,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,,A,Maîtrise satisfaisante
+,ECH-CHOUIKH  yacout ,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,,B,Pesque maîtrisé 
+,EL - HARIM  Fahd,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,,C,Maîtrisé fragile
+,EL ABBASSI  nour,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,,B,Pesque maîtrisé 
+,EL MEJJATY  ahmed ,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,,B,Pesque maîtrisé 
+,ELMIR  mustapha ,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,,C,Maîtrisé fragile
+,SETATI  oumnia,Moyenne section G1,Préscolaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,,D,Début de maîtrise
+,Kamal  adam,CP G1,Primaire,Apprendre à vivre ensemble,J’accepte la séparation avec le milieu familial,,C,Maîtrisé fragile
+2022-02-16 13:01:35,Kamal  adam,CP G1,Primaire,Apprendre à être autonome ,Je reconnais mon étiquette de présence ,10.0,E,Maîtrise insuffisante
+2022-02-16 12:59:22,Kamal  adam,CP G1,Primaire,Langage sensoriel 1 : Preparer la lecture ,Je connais le premier son dans un mot ,33.0,B,Pesque maîtrisé 
+2022-02-16 12:59:22,Kamal  adam,CP G1,Primaire,Langage sensoriel 1 : Preparer la lecture ,Je connais le dernier son dans un mot ,50.0,A,Maîtrise satisfaisante
+2022-02-16 12:59:22,Kamal  adam,CP G1,Primaire,Langage sensoriel 1 : Preparer la lecture ,Je connais le deuxieme son dans un mot ,25.0,C,Maîtrisé fragile
+2022-02-16 12:59:22,Kamal  adam,CP G1,Primaire,Langage sensoriel 2 : Apprendre les lettres de l'alphabet ,je lis les lettres de l'alphabet ,10.0,E,Maîtrise insuffisante
+2022-02-16 12:59:22,Kamal  adam,CP G1,Primaire,Langage sensoriel 2 : Apprendre les lettres de l'alphabet ,Je lis les diagrammes ,33.0,B,Pesque maîtrisé 
+2022-02-16 12:59:22,Kamal  adam,CP G1,Primaire,Langage sensoriel 2 : Apprendre les lettres de l'alphabet ,"Je trace les lettres sur le sable, l'ardoise et la feuille ",50.0,A,Maîtrise satisfaisante
+2022-02-16 12:59:22,Kamal  adam,CP G1,Primaire,Langage sensoriel 3 : Apprendre le codage,Je superpose les lettres mobiles avec les lettres rugueuses ,50.0,A,Maîtrise satisfaisante
+2022-02-16 12:59:22,Kamal  adam,CP G1,Primaire,Langage sensoriel 3 : Apprendre le codage,Je compose un mot simple ,18.0,D,Début de maîtrise
+2022-02-16 13:01:35,Kamal  adam,CP G1,Primaire,Langage sensoriel 4 : Apprendre le decodage ,Je lis les premiers mots de serie rose,33.0,B,Pesque maîtrisé 
+2022-02-16 13:01:35,Kamal  adam,CP G1,Primaire,Langage sensoriel 4 : Apprendre le decodage ,Je lis une phrase longue ,50.0,A,Maîtrise satisfaisante
+,Kamal  adam,CP G1,Primaire,Apprendre à être autonome ,Je reconnais mon étiquette de présence ,,E,Maîtrise insuffisante
+,Kamal  adam,CP G1,Primaire,Langage sensoriel 4 : Apprendre le decodage ,Je lis les premiers mots de serie rose,,B,Pesque maîtrisé 
+,Kamal  adam,CP G1,Primaire,Langage sensoriel 4 : Apprendre le decodage ,Je lis une phrase longue ,,A,Maîtrise satisfaisante
+,GHARBY  youssef ,CP G1,Primaire,Apprendre à être autonome ,Je reconnais mon étiquette de présence ,,C,Maîtrisé fragile
+,KARIM  douaa,CP G1,Primaire,Apprendre à être autonome ,Je reconnais mon étiquette de présence ,,B,Pesque maîtrisé 
+,ZAIDANI  anas,CP G1,Primaire,Apprendre à être autonome ,Je reconnais mon étiquette de présence ,,D,Début de maîtrise
+,GHANNAMI  mohamed rayan ,CP G1,Primaire,Apprendre à être autonome ,Je reconnais mon étiquette de présence ,,C,Maîtrisé fragile
+,GHARBY  youssef ,CP G1,Primaire,Apprendre à être autonome ,Je reconnais mon étiquette de présence ,,B,Pesque maîtrisé 

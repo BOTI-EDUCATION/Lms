@@ -1,0 +1,181 @@
+@font-face {
+  font-family: 'Pokemon-Hollow';
+  src: url('../fonts/Pokemon-Hollow.ttf')  format('truetype');
+  font-weight: 400;
+}
+body {
+  font-family: 'PT', sans-serif;
+}
+
+#game {   
+	position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+}
+
+.red-text {
+  color: #E71D36;
+}
+
+.question-container span {
+  font-size: 115px;
+  color: #F45B69;
+  font-family: 'Pokemon-Hollow';
+    letter-spacing: 25px;
+}
+
+.question-container .show-reponse {
+  cursor: pointer;
+  display:none;
+}
+
+#play {
+  font-size: 20px;
+  background-color: #114B5F;
+  color: white;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  left: 50%;
+}
+
+.new-question{
+	display:none;
+	cursor:pointer;
+}
+
+#new-question {
+	display:none;
+  font-size: 20px;
+  background-color: #114B5F;
+  color: white;
+  position: absolute;
+  bottom: 0;
+  transform: translate(-50%,-50%);
+  right: 0;
+}
+
+#answer {
+  width: 40%;
+  padding: 4px;
+  border: solid 1px gainsboro;
+  -webkit-transition: box-shadow 0.3s, border 0.3s;
+  -moz-transition: box-shadow 0.3s, border 0.3s;
+  -o-transition: box-shadow 0.3s, border 0.3s;
+  transition: box-shadow 0.3s, border 0.3s;
+  color: #000;
+  font-size: 30px;
+}
+
+#answer:focus {
+  border: solid 1px #707070;
+  -webkit-box-shadow: 0 0 5px 1px #969696;
+  -moz-box-shadow: 0 0 5px 1px #969696;
+  box-shadow: 0 0 5px 1px #969696;
+}
+
+#result {
+  font-size: 60px;
+  border: dashed;
+  margin-left: 10%;
+}
+
+#timed {
+  font-size: 35px;
+  position: absolute;
+  right: 15px;
+  font-family: 'Pokemon-Hollow';
+  color: #000;
+}
+
+#timerBar {
+ 
+  
+}
+
+#prize {
+  font-size: 60px;
+  text-align: center;
+  color: #F45B69;
+  display: block !important;
+}
+
+.sec0 {
+  width: 0%;
+}
+
+.sec1 {
+  width: 10%;
+}
+
+.sec2 {
+  width: 20%;
+}
+
+.sec3 {
+  width: 30%;
+}
+
+.sec4 {
+  width: 40%;
+}
+
+.sec5 {
+  width: 50%;
+}
+
+.sec6 {
+  width: 60%;
+}
+
+.sec7 {
+  width: 70%;
+}
+
+.sec8 {
+  width: 80%;
+}
+
+.sec9 {
+  width: 90%;
+}
+
+.sec10 {
+  width: 100%;
+}
+
+
+.video-embed {
+    position: relative;
+    height: 0;
+    padding-top: 56.25%;
+    overflow: hidden;
+}
+.video-embed.square {
+    padding-top: 75%;
+}
+.video-embed .video-js video {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
+.video-js{
+	position: relative;
+    height: 0;
+    padding-top: 56.25%;
+    overflow: hidden;
+	margin: 0 auto;
+    width: 100%;
+}
+
+#phaser-example {
+	position: absolute;
+    bottom: 50px;
+    margin: 0 auto;
+    left: 50%;
+    transform: translateX(-50%);
+}

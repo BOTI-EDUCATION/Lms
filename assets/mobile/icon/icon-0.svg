@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="4360.982 526.127 34.133 38.275">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #9675e2;
+      }
+
+      .cls-2 {
+        fill: none;
+        stroke: #9675e2;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <g id="New" transform="translate(4440.982 322.405)">
+    <rect id="Rectangle_47" data-name="Rectangle 47" class="cls-1" width="16.204" height="2.388" transform="translate(-72.065 212.896)"/>
+    <rect id="Rectangle_48" data-name="Rectangle 48" class="cls-1" width="16.204" height="2.388" transform="translate(-72.065 219.441)"/>
+    <rect id="Rectangle_49" data-name="Rectangle 49" class="cls-1" width="9.085" height="2.388" transform="translate(-72.065 226.053)"/>
+    <path id="Tracé_73" data-name="Tracé 73" d="M-49.694,203.722H-80v35.884h14.464v-1.892H-77.861V205.779h27.938v18.349h2V203.722Z" transform="translate(0 0)"/>
+    <path id="Tracé_74" data-name="Tracé 74" class="cls-2" d="M149.17,482.541l3.112-2.876-.308,4.227,4.189.64-3.5,2.394,2.112,3.674-4.052-1.241L149.17,493.3l-1.556-3.942-4.052,1.241,2.112-3.674-3.5-2.394,4.189-.64-.308-4.227Z" transform="translate(-203.358 -252.666)"/>
+  </g>
+</svg>

@@ -1,0 +1,10 @@
+# Specifies intentionally untracked files to ignore when using Git
+# http://git-scm.com/docs/gitignore
+
+classes/db.php
+config/database.php
+assets/schools/*
+spa/**/node_modules
+pass.txt
+dashboard_scripts/
+libs

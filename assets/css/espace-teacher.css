@@ -1,0 +1,175 @@
+body.vertical-layout.vertical-menu.espace-teache .content,
+body.vertical-layout.vertical-menu .footer {
+    margin-left: 0px !important;
+}
+
+.espace-teacher nav.navbar .navbar-wrapper {
+    background: var(--main-color);
+    color: #fff;
+    padding: 5px 50px;
+    border-radius: 0px 0px 0px 60px;
+}
+
+.espace-teacher nav.navbar .navbar-header {
+    background: transparent;
+}
+
+.espace-teacher .app-content.content.container-fluid {
+    background-color: #fff !important;
+}
+
+.espace-teacher .navbar-container.content {
+    background: transparent !important;
+}
+
+.text-main {
+    color: var(--main-color);
+}
+
+.bg-main {
+    background-color: var(--main-color);
+}
+
+.espace-teacher .home-tabs.nav.nav-tabs .nav-item .nav-link:not(.active) .icon_container svg path {
+    fill: rgb(145, 145, 145);
+}
+
+.espace-teacher .home-tabs.nav.nav-tabs .nav-item .nav-link:hover .icon_container svg path {
+    fill: var(--main-color);
+}
+
+.espace-teacher .home-tabs.nav.nav-tabs .nav-item .nav-link.active .icon_container svg path {
+    fill: var(--main-color);
+}
+
+.espace-teacher .nav-link .title {
+    color: rgb(145, 145, 145);
+}
+
+.espace-teacher .nav-link:hover .title {
+    color: var(--main-color);
+}
+
+.espace-teacher .nav-link.active .title {
+    color: var(--main-color);
+}
+
+.espace-teacher .pagination.pagination-date {
+    padding: 25px 0px;
+    width: 100%;
+    background-color: var(--main-color);
+    text-align: center !important;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 500;
+    border-radius: 10px;
+}
+
+.espace-teacher .pagination.pagination-date .page-link {
+    position: relative;
+    float: none;
+    padding: 0.5rem 0.75rem;
+    color: #FFF;
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.espace-teacher .nav.nav-tabs.nav-linetriangle.nav-justified ,.espace-teacher .nav.nav-tabs.nav-linetriangle .nav-item a.nav-link.active {
+    border: none;
+}
+
+.espace-teacher .nav.nav-tabs.nav-linetriangle .nav-item a.nav-link.active:after , .espace-teacher .nav.nav-tabs.nav-linetriangle .nav-item a.nav-link.active:before{
+    content: unset;
+}
+.espace-teacher .nav.nav-tabs.nav-linetriangle .nav-item a.nav-link{
+    color: var(--main-color);
+    background-color: transparent;
+    border-radius: 10px;
+}
+.espace-teacher .nav.nav-tabs.nav-linetriangle .nav-item a.nav-link.active , .espace-teacher .nav.nav-tabs.nav-linetriangle .nav-item a.nav-link:hover{
+    background-color: var(--main-color);
+    color: #fff;
+}
+.espace-teacher .session-time{
+    color: var(--main-color);
+}
+.border-secondary{
+    border-color: #f4f4f4;
+}
+.espace-teacher .badge.badge-danger{
+    background: #FC6C6C;
+    color: #fff !important;
+    padding: 6px;
+}
+.espace-teacher .badge.badge-success{
+    background: #6DD39C;
+    color: #fff !important;
+    padding: 6px;
+}
+
+.espace-teacher .badge{
+    border-radius: 20px;
+}
+
+.espace-teacher .badge i{
+    border-radius: 10px;
+}
+
+.bg-darken{
+   background-color: #33333333;
+}
+
+.p-3px{
+    padding: 3px;
+}
+
+.d-flex{
+    display: flex;
+} 
+
+.align-items-center{
+    align-items: center;
+}
+
+.espace-teacher .page-home-work .btn ,.espace-teacher .page-resources .btn{
+    background: var(--main-color) !important;
+    border-color: var(--main-color) !important;
+}
+
+.espace-teacher .espace-listing .table .actions .btn{
+    color: #fff;
+}
+
+.espace-teacher .cahier-form .label-control{
+    color: var(--main-color);
+}
+
+.text-secondary{
+    color: #d1d1d1 ;
+}
+
+.espace-teacher .border-devoir-success{
+    border-bottom: 5px solid #6DD39C;
+}
+.espace-teacher .border-devoir-warning{
+    border-bottom: 5px solid orange;
+}
+
+.espace-teacher .homework-item-header {
+    width: 100%;
+}
+.espace-teacher .resource-item-header {
+    width: 100%;
+}
+.espace-teacher .exam-item-header {
+    width: 100%;
+}
+
+.espace-teacher .badge-light-main {
+    background-color: var(--main-color);
+    padding: 3px 6px;
+}
+/* .espace-teacher { */

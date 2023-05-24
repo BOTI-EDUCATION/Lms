@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="3157.073 318.373 33.697 36.848">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #f24e4e;
+      }
+
+      .cls-2 {
+        fill: #030303;
+      }
+    </style>
+  </defs>
+  <g id="delete" transform="translate(3157.073 318.373)">
+    <rect id="Rectangle_42" data-name="Rectangle 42" class="cls-1" width="16.259" height="2.396" transform="translate(7.959 9.203)"/>
+    <rect id="Rectangle_43" data-name="Rectangle 43" class="cls-1" width="16.259" height="2.396" transform="translate(7.959 15.77)"/>
+    <rect id="Rectangle_44" data-name="Rectangle 44" class="cls-1" width="15.869" height="2.135" transform="translate(33.692 25.627) rotate(135)"/>
+    <rect id="Rectangle_45" data-name="Rectangle 45" class="cls-1" width="15.869" height="2.135" transform="translate(22.476 24.114) rotate(45)"/>
+    <rect id="Rectangle_46" data-name="Rectangle 46" class="cls-1" width="9.112" height="2.396" transform="translate(7.959 22.402)"/>
+    <path id="Tracé_54" data-name="Tracé 54" class="cls-2" d="M-49.6,203.7H-80v36h14.509v-1.9H-77.853V205.764h28.024v18.406h2.006V203.7Z" transform="translate(80 -203.7)"/>
+  </g>
+</svg>

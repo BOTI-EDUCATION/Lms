@@ -1,0 +1,344 @@
+
+	.filter-container .card {
+		border-radius: 15px;
+	}
+
+	.filter-container .panel-title {
+		padding: 20px;
+	}
+
+	.filter-container .panel-heading::after {
+		font-family: 'FONTAWESOME';
+		content: "\f068";
+		font-size: 26px;
+		position: absolute;
+		right: 50px;
+		top: 1.5rem;
+		color: #989898;
+	}
+
+	.filter-container .collapsed .panel-heading::after {
+		font-family: 'FONTAWESOME';
+		content: "\f067";
+		font-size: 26px;
+		position: absolute;
+		right: 50px;
+		top: 1.5rem;
+		color: #989898;
+	}
+
+	.filter-container .filter-input,
+	.filter-input+.select2 .select2-selection {
+		border-radius: 50px;
+		border: 1px solid #b1b1f7 !important;
+	}
+
+
+	.filter-input+.select2.select2-container--open .select2-selection {
+		border-radius: 20px;
+	}
+
+
+	.filter-input+.select2 .select2-selection .select2-selection__arrow {
+		display: none;
+	}
+
+	.filter-input+.select2 .select2-selection .select2-selection__clear {
+		color: #b1b1f7;
+	}
+
+	.filter-container select.filter-input,
+	.filter-input+.select2.select2-container--default .select2-selection--single {
+		-moz-appearance: none;
+		/* Firefox */
+		-webkit-appearance: none;
+		/* Safari and Chrome */
+		appearance: none;
+		background-image:
+			linear-gradient(45deg, transparent 50%, #b1b1f7 50%),
+			linear-gradient(135deg, #b1b1f7 50%, transparent 50%) !important;
+		background-position:
+			calc(100% - 20px) calc(1em + 2px),
+			calc(100% - 15px) calc(1em + 2px),
+			calc(100% - 2.5em) 0.5em;
+		background-size:
+			5px 5px,
+			5px 5px,
+			1px 1.5em;
+		background-repeat: no-repeat;
+
+		/* padding: 0px 25px; */
+	}
+
+	.page-albumPhoto .card {
+		border-radius: 10px;
+	}
+
+	.text-dark {
+		color: #555555;
+	}
+
+	.btn-secondary {
+		background-color: #f03e66;
+		border: 1px solid #f03e66;
+		color: #fff;
+		border-radius: 50px;
+
+	}
+
+	.btn-secondary:hover {
+		background-color: transparent;
+		border: 1px solid #f03e66;
+		color: #f03e66;
+		border-radius: 50px;
+	}
+
+	.btn-rounded {
+		border-radius: 50px !important;
+	}
+
+	.btn-main {
+		color: #fff;
+		border: 1px solid #7F7FFA;
+		border-radius: 25px;
+		background-color: #7F7FFA;
+		padding: 15px 35px;
+		border-radius: 50px;
+	}
+
+	.btn-main:hover {
+		background: transparent;
+		border: 1px solid #7F7FFA;
+		border-radius: 25px;
+		color: #7F7FFA;
+		padding: 15px 35px;
+		border-radius: 50px;
+
+	}
+
+	.d-flex {
+		display: flex !important;
+	}
+
+	.align-items-center {
+		align-items: center;
+	}
+
+	.w-100 {
+		width: 100%;
+	}
+
+	.float-right {
+		float: right;
+	}
+
+	/* custom checkbox */
+
+	/* Customize the label (the container) */
+	.custom-checkbox {
+		display: block;
+		position: relative;
+		padding-left: 35px;
+		margin-bottom: 12px;
+		cursor: pointer;
+		font-size: 16px;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+
+	/* Hide the browser's default checkbox */
+	.custom-checkbox input {
+		position: absolute;
+		opacity: 0;
+		cursor: pointer;
+		height: 0;
+		width: 0;
+	}
+
+	/* Create a custom checkbox */
+	.checkboxmark {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 25px;
+		width: 25px;
+		border-radius: 50px;
+		border: 1px solid #33333377;
+	}
+
+	.checkboxmark i {
+		font-size: 10px;
+		text-align: center;
+		margin: auto;
+		position: absolute;
+		top: 7px;
+		right: 7px;
+		color: 33333377;
+	}
+
+	/* On mouse-over, add a grey background color */
+	.custom-checkbox:hover input~.checkboxmark {
+		background-color: #ccc;
+	}
+
+	/* When the checkbox is checked, add a blue background */
+	.custom-checkbox input:checked~.checkboxmark {
+		background-color: #b1b1f7;
+		border: 1px solid #b1b1f7;
+	}
+
+	.custom-checkbox input:checked~.checkboxmark i {
+		color: #fff;
+	}
+
+	/* Create the checkboxmark/indicator (hidden when not checked) */
+	.checkboxmark:after {
+		content: "";
+		position: absolute;
+		display: none;
+	}
+
+	/* Show the checkboxmark when checked */
+	.custom-checkbox input:checked~.checkboxmark:after {
+		display: block;
+	}
+
+	/* Style the checkboxmark/indicator */
+	.custom-checkbox .checkboxmark:after {
+		left: 9px;
+		top: 5px;
+		width: 5px;
+		height: 10px;
+	}
+
+	.badge {
+		border: 1px solid;
+		border-radius: 5px;
+		padding: 1px 5px;
+		font-weight: 600;
+		text-align: center;
+	}
+
+	.badge-main-outline {
+		border: 1px solid #7F7FFA;
+		color: #7F7FFA;
+	}
+
+	.badge-lg {
+		padding: 5px 20px;
+	}
+
+	.btn-toggle-visibility {
+		border-radius: 50px !important;
+		border: 1px solid #F44336;
+		color: #F44336;
+	}
+
+	.btn-toggle-visibility.active {
+		border-radius: 50px !important;
+		background-color: #009688;
+		border: 1px solid #009688;
+		color: #fff !important;
+	}
+
+	.table-search-input {
+		border-radius: 50px;
+		border: 1px solid #b1b1f7;
+	}
+
+	.table-search-wrapper:after {
+		content: "\f002";
+		position: absolute;
+		font-family: 'FONTAWESOME';
+		right: 30px;
+		top: 30%;
+		color: #7F7FFA;
+	}
+
+	.espace-listing .dataTables_wrapper div.dataTables_filter label:after {
+		content: "\f002";
+		position: absolute;
+		font-family: 'FONTAWESOME';
+		right: 30px;
+		top: 15%;
+		color: #7F7FFA;
+	}
+
+	.espace-listing .dataTables_wrapper div.dataTables_filter input {
+		border-radius: 50px !important;
+		border: 1px solid #b1b1f7 !important;
+	}
+
+	.app-content.content.container-fluid {
+		background: #F0F0F7 !important;
+	}
+
+
+	.page-albumPhoto table thead tr {
+		height: 80px;
+		background-color: #F5F5FF;
+		color: #0B0B0B;
+		font-weight: 600;
+	}
+
+	.page-albumPhoto table.dataTable thead .sorting:before,
+	table.dataTable thead .sorting:after,
+	table.dataTable thead .sorting_asc:before,
+	table.dataTable thead .sorting_asc:after,
+	table.dataTable thead .sorting_desc:before,
+	table.dataTable thead .sorting_desc:after,
+	table.dataTable thead .sorting_asc_disabled:before,
+	table.dataTable thead .sorting_asc_disabled:after,
+	table.dataTable thead .sorting_desc_disabled:before,
+	table.dataTable thead .sorting_desc_disabled:after {
+		bottom: 2em;
+	}
+
+	.page-albumPhoto table .parents-wrapper {
+		padding: 20px;
+	}
+
+	.badge-outline-main {
+		background: transparent;
+		border: 1px solid #7F7FFA;
+		border-radius: 25px;
+		color: #7F7FFA;
+		padding: 3px 10px;
+		font-size: 11px;
+	}
+
+	.page-albumPhoto table,
+	table th {
+		border: 1px solid #D6D6F6;
+
+	}
+
+	.page-albumPhoto table td {
+		border-top: none;
+		border-bottom: none;
+		border-left: 1px solid #D6D6F6;
+		border-right: 1px solid #D6D6F6;
+	}
+
+	.page-albumPhoto table tr.even {
+		background: #FAFAFF;
+	}
+
+	.page-albumPhoto .dataTables_info,
+	.dataTables_paginate {
+		padding: 12px;
+	}
+
+	.album_img {
+		width: 71px;
+		height: 63px;
+	}
+
+	.album_title {
+		text-align: left;
+		white-space: normal;
+		padding-left: 12px;
+		color: #7F7FFA;
+	}
