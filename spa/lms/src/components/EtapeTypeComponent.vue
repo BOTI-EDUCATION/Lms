@@ -457,13 +457,16 @@ export default {
 </script>
 <style scoped>
 .v-data-table::v-deep table tbody {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 .v-data-table::v-deep table tbody tr {
   margin-right: 50px;
   margin-top: 20px;
   border: none;
+  width: 300px;
 }
 .v-data-table::v-deep table tbody tr td {
   padding: 0;

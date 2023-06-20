@@ -42,6 +42,31 @@ class ContentController
             'isCrmAllowed' => $isCrmAllowed,
         ]);
     }
+    public function insCount($filterSite = null)
+    {
+        $whereSite = 'ID';
+        if ($filterSite) {
+            $whereSite = 'Site = "' . $filterSite . '"';
+        }
+        $promotion  =  \Models\Promotion::promotion_overte_pour_inscriptions();
+        $promotion_label  =  \Models\Promotion::promotion_overte_pour_inscriptions()->get('Label');
+        $last_promotion  =  $promotion->lastPromo();
+        $where_promotion = $last_promotion ? 'Eleve NOT IN ( SELECT `Eleve` FROM `ins_inscriptions` WHERE `Promotion` = ' . $last_promotion->ID . ' )'  : '`Validated` IS NOT NULL';
+
+        $new_inscriptions = \Models\Inscription::getList([
+            'where' => [
+                "Depart IS NULL",
+                "`Validated` IS NOT NULL",
+                'Promotion' => $promotion->ID,
+                $where_promotion,
+                $whereSite,
+            ]
+        ]);
+        return [
+            'insc' => count($new_inscriptions),
+            'label' => $promotion_label,
+        ];
+    }
     public function init()
     {
         sendResponse([
@@ -54,21 +79,23 @@ class ContentController
     }
     public function inscriptions_()
     {
-        $getInsReinByWeek =  $this->getInsReinByWeek();
-        $getReinscriptionsInscriptions =  $this->getReinscriptionsInscriptions();
-        $getReinscriptions =  $this->getReinscriptions();
-        $getProspects =  $this->getProspects();
-        $getInsReinsPros =  $this->getInsReinsPros();
-        $getInscriptionsByCycles =  $this->getInscriptionsByCycles();
-        $getInscriptionsByLevel =  $this->getInscriptionsByLevel();
-       
-        // echo '<pre>';
-        // print_r($getReinscriptionsInscriptions);
-        // echo '</pre>';
+        $sites = array_map(fn ($item) => ['value' => $item->Alias, 'text' => $item->Label], Site::getList());
+        $filterSite = isset($_GET['site']) && $_GET['site'] ? Site::getList(['where' => ['Label' => $_GET['site']]])[0]->Alias  : $sites[0]['value'];
+        $insCount =  $this->insCount($filterSite);
+        $getInsReinByWeek =  $this->getInsReinByWeek($filterSite);
+        $getReinscriptionsInscriptions =  $this->getReinscriptionsInscriptions($filterSite);
+        $getReinscriptions =  $this->getReinscriptions($filterSite);
+        $getProspects =  $this->getProspects($filterSite);
+        $getInsReinsPros =  $this->getInsReinsPros($filterSite);
+        $getInscriptionsByCycles =  $this->getInscriptionsByCycles($filterSite);
+        $getInscriptionsByLevel =  $this->getInscriptionsByLevel($filterSite);
+
+        $data = [];
+        extract($insCount);
+        $data['insc'] = $insc;
         extract($getInsReinByWeek);
         extract($getReinscriptionsInscriptions);
         extract($getReinscriptions);
-        $data = [];
         $data['ins'] = $ins;
         $data['rein'] = $rein;
         $data['days'] = $days;
@@ -77,7 +104,7 @@ class ContentController
         $data['total'] = $total;
         $data['pourcentage'] = $pourcentage;
         $data['count_reinscriptions'] = $count_reinscriptions;
-        
+
         extract($getProspects);
         $data['leads'] = $leads;
         $data['label'] = $label;
@@ -96,6 +123,7 @@ class ContentController
         $data['reins_level'] =  $reins_level;
         $data['all_level'] =  $all_level;
 
+        $data['sites'] =  $sites;
 
         sendResponse($data);
     }
@@ -118,8 +146,12 @@ class ContentController
         ]);
     }
 
-    public function getProspects()
+    public function getProspects($filterSite = null)
     {
+        $whereSite = 'ID';
+        if ($filterSite) {
+            $whereSite = 'Site = "' . $filterSite . '"';
+        }
         $promotion_label  =  \Models\Promotion::promotion_overte_pour_inscriptions()->get('Label');
 
         $promotion  =  \Models\Promotion::promotion_overte_pour_inscriptions();
@@ -133,7 +165,8 @@ class ContentController
                 "Depart IS NULL",
                 "`Validated` IS NOT NULL",
                 $where_promotion_3,
-                $where_promotion_
+                $where_promotion_,
+                $whereSite,
             ]
         ]);
         $count_non_resinsrit = $last_promo_id  ? \Models\Inscription::where(['Promotion' => $last_promo_id])
@@ -148,8 +181,11 @@ class ContentController
             'pourcentage_prospet' => $pourcentage,
         ]);
     }
-    public function getInsReinsPros()
+    public function getInsReinsPros($filterSite = null)
     {
+        if ($filterSite) {
+            $whereSite = 'Site ="' . $filterSite . '"';
+        }
         $promotion  =  \Models\Promotion::promotion_overte_pour_inscriptions();
         $last_promotion  =  $promotion->lastPromo();
         $where_promotion = $last_promotion ? 'Eleve NOT IN ( SELECT `Eleve` FROM `ins_inscriptions` WHERE `Promotion` = ' . $last_promotion->ID . ' )'  : '`Validated` IS NOT NULL';
@@ -161,14 +197,16 @@ class ContentController
                 "Depart IS NULL",
                 "`Validated` IS NOT NULL",
                 'Promotion' => $promotion->ID,
-                $where_promotion
+                $where_promotion,
+                $whereSite
             ]
         ]);
         $reinscriptions = \Models\Inscription::getList([
             'where' => [
                 'Promotion' => $promotion->ID,
                 "`Validated` IS NOT NULL",
-                $where_promotion_
+                $where_promotion_,
+                $whereSite
             ]
         ]);
         $new_inscriptions_year = \Models\Inscription::getList([
@@ -176,7 +214,8 @@ class ContentController
                 "Depart IS NULL",
                 "`Validated` IS NOT NULL",
                 $where_promotion_3,
-                $where_promotion_
+                $where_promotion_,
+                $whereSite
             ]
         ]);
         $query = [
@@ -191,8 +230,12 @@ class ContentController
             'insLastYearCount' => count($query["insLastYearCount"]),
         ]);
     }
-    public function getReinscriptions()
+    public function getReinscriptions($filterSite = null)
     {
+        $whereSite = 'ID';
+        if ($filterSite) {
+            $whereSite = 'Site = "' . $filterSite . '"';
+        }
         $promotion  =  \Models\Promotion::promotion_overte_pour_inscriptions();
         $last_promotion  =  $promotion->lastPromo();
         $where_promotion = $last_promotion ? 'Eleve NOT IN ( SELECT `Eleve` FROM `ins_inscriptions` WHERE `Promotion` = ' . $last_promotion->ID . ' )'  : '`Validated` IS NOT NULL';
@@ -201,7 +244,8 @@ class ContentController
             'where' => [
                 'Promotion' => $promotion->ID,
                 "`Validated` IS NOT NULL",
-                $where_promotion_
+                $where_promotion_,
+                $whereSite,
             ]
         ]);
         $count_reinscriptions = count($reinscriptions);
@@ -210,10 +254,12 @@ class ContentController
         return $data;
         print_r(json_encode($data));
     }
-    public function getReinscriptionsInscriptions()
+    public function getReinscriptionsInscriptions($filterSite = null)
     {
-
-
+        $whereSite = 'ID';
+        if ($filterSite) {
+            $whereSite = 'Site = "' . $filterSite . '"';
+        }
         $promotion  =  \Models\Promotion::promotion_overte_pour_inscriptions();
         $last_promotion  =  $promotion->lastPromo();
         $where_promotion = $last_promotion ? 'Eleve NOT IN ( SELECT `Eleve` FROM `ins_inscriptions` WHERE `Promotion` = ' . $last_promotion->ID . ' )'  : '`Validated` IS NOT NULL';
@@ -225,7 +271,8 @@ class ContentController
                 "Depart IS NULL",
                 "`Validated` IS NOT NULL",
                 'Promotion' => $promotion->ID,
-                $where_promotion
+                $where_promotion,
+                $whereSite,
             ]
         ]);
         $new_inscriptions_year = \Models\Inscription::getList([
@@ -233,14 +280,16 @@ class ContentController
                 "Depart IS NULL",
                 "`Validated` IS NOT NULL",
                 $where_promotion_3,
-                $where_promotion_
+                $where_promotion_,
+                $whereSite
             ]
         ]);
         $reinscriptions = \Models\Inscription::getList([
             'where' => [
                 'Promotion' => $promotion->ID,
                 "`Validated` IS NOT NULL",
-                $where_promotion_
+                $where_promotion_,
+                $whereSite
             ]
         ]);
         $total = count($reinscriptions) + count($new_inscriptions);
@@ -251,8 +300,11 @@ class ContentController
         return $data;
         print_r(json_encode($data));
     }
-    public function getInscriptionsByLevel()
+    public function getInscriptionsByLevel($filterSite = null)
     {
+        if ($filterSite) {
+            $whereSite = 'Site ="' . $filterSite . '"';
+        }
         $promotion  =  \Models\Promotion::promotion_overte_pour_inscriptions();
         $last_promotion  =  $promotion->lastPromo();
         $where_promotion = $last_promotion ? 'Eleve NOT IN ( SELECT `Eleve` FROM `ins_inscriptions` WHERE `Promotion` = ' . $last_promotion->ID . ' )'  : '`Validated` IS NOT NULL';
@@ -260,11 +312,11 @@ class ContentController
 
         $query = [
             "ins" => "select gen_niveaux.Label AS 'niveau_label' , COUNT(DISTINCT ins_inscriptions.ID) AS 'count_ins'   FROM ins_inscriptions INNER JOIN gen_niveaux ON ins_inscriptions.Niveau = gen_niveaux.ID  where Depart IS NULL
-            and Validated IS NOT NULL and Promotion = " . $promotion->ID . " and " . $where_promotion . " GROUP BY gen_niveaux.Label",
+            and Validated IS NOT NULL   and " . $whereSite . "  and Promotion = " . $promotion->ID . " and " . $where_promotion . " GROUP BY gen_niveaux.Label",
             "reins" => "select gen_niveaux.Label AS 'niveau_label' , COUNT(DISTINCT ins_inscriptions.ID) AS 'count_ins'   FROM ins_inscriptions INNER JOIN gen_niveaux ON ins_inscriptions.Niveau = gen_niveaux.ID  where
-            Validated IS NOT NULL and Promotion = " . $promotion->ID . " and " . $where_promotion_ . " GROUP BY gen_niveaux.Label",
+            Validated IS NOT NULL  and " . $whereSite . " and  Promotion = " . $promotion->ID . " and " . $where_promotion_ . " GROUP BY gen_niveaux.Label",
             "all" => "select gen_niveaux.Label AS 'niveau_label' , COUNT(DISTINCT ins_inscriptions.ID) AS 'count_ins'   FROM ins_inscriptions INNER JOIN gen_niveaux ON ins_inscriptions.Niveau = gen_niveaux.ID  where Depart IS NULL
-            and Validated IS NOT NULL and Promotion = " . $promotion->ID . " and " . $where_promotion . " or " . $where_promotion_ . " GROUP BY gen_niveaux.Label",
+            and Validated IS NOT NULL   and " . $whereSite . "  and Promotion = " . $promotion->ID . " and " . $where_promotion . " or " . $where_promotion_ . " GROUP BY gen_niveaux.Label",
         ];
         $ins_level =  DB::reader($query["ins"]);
         $reins_level =  DB::reader($query["reins"]);
@@ -277,8 +329,12 @@ class ContentController
         return $result;
         print_r(json_encode($result));
     }
-    public function getInscriptionsByCycles()
+    public function getInscriptionsByCycles($filterSite = null)
     {
+        $whereSite = 'ID';
+        if ($filterSite) {
+            $whereSite = 'Site = "' . $filterSite . '"';
+        }
         $promotion  =  \Models\Promotion::promotion_overte_pour_inscriptions();
         $last_promotion  =  $promotion->lastPromo();
         $where_promotion = $last_promotion ? 'Eleve NOT IN ( SELECT `Eleve` FROM `ins_inscriptions` WHERE `Promotion` = ' . $last_promotion->ID . ' )'  : '`Validated` IS NOT NULL';
@@ -289,14 +345,16 @@ class ContentController
                 "Depart IS NULL",
                 "`Validated` IS NOT NULL",
                 'Promotion' => $promotion->ID,
-                $where_promotion
+                $where_promotion,
+                $whereSite,
             ]
         ]);
         $reinscriptions = \Models\Inscription::getList([
             'where' => [
                 'Promotion' => $promotion->ID,
                 "`Validated` IS NOT NULL",
-                $where_promotion_
+                $where_promotion_,
+                $whereSite
             ]
         ]);
         $total = count($reinscriptions) + count($new_inscriptions);
@@ -337,6 +395,74 @@ class ContentController
             ];
         }
         return ['cycles' => $cycles];
+        sendResponse(['cycles' => $cycles]);
+    }
+    public function getInscriptionsByCycles_($filterSite = null)
+    {
+        if ($filterSite) {
+            $whereSite = 'Site = "' . $filterSite . '"';
+        } else {
+            $whereSite = 'ID';
+        }
+        $promotion  =  \Models\Promotion::promotion_overte_pour_inscriptions();
+        $last_promotion  =  $promotion->lastPromo();
+        $where_promotion = $last_promotion ? 'Eleve NOT IN ( SELECT `Eleve` FROM `ins_inscriptions` WHERE `Promotion` = ' . $last_promotion->ID . ' )'  : '`Validated` IS NOT NULL';
+        $where_promotion_ = $last_promotion ? 'Eleve IN ( SELECT `Eleve` FROM `ins_inscriptions` WHERE `Promotion` = ' . $last_promotion->ID . ' )'  : '`Validated` IS NOT NULL';
+
+        $new_inscriptions = \Models\Inscription::getList([
+            'where' => [
+                "Depart IS NULL",
+                "`Validated` IS NOT NULL",
+                'Promotion' => $promotion->ID,
+                $where_promotion,
+                $whereSite,
+            ]
+        ]);
+        $reinscriptions = \Models\Inscription::getList([
+            'where' => [
+                'Promotion' => $promotion->ID,
+                "`Validated` IS NOT NULL",
+                $where_promotion_,
+                $whereSite
+            ]
+        ]);
+        $total = count($reinscriptions) + count($new_inscriptions);
+        $data['total'] = $total;
+        $cycles = array();
+
+        foreach (\Models\Cycle::getList() as $cycle) {
+            $cycleInscriptions = array_filter($new_inscriptions, function ($inscri) use ($cycle) {
+                return $inscri->Niveau->Cycle->ID == $cycle->ID;
+            });
+            $cycleReinscriptions = array_filter($reinscriptions, function ($inscri) use ($cycle) {
+                return $inscri->Niveau->Cycle->ID == $cycle->ID;
+            });
+
+            $cycleNiveaux = [];
+
+            foreach (\Models\Niveau::getList(['where' => ['Cycle' => $cycle->ID]]) as $niveau) {
+                $niveauInscriptions = array_filter($cycleInscriptions, function ($inscri) use ($niveau) {
+                    return $inscri->Niveau->ID == $niveau->ID;
+                });
+                $niveauReinscriptions = array_filter($cycleReinscriptions, function ($inscri) use ($niveau) {
+                    return $inscri->Niveau->ID == $niveau->ID;
+                });
+                $cycleNiveaux[] = [
+                    'label' => $niveau->Label,
+                    'inscriptions' => count($niveauInscriptions),
+                    'reinscriptions' => count($niveauReinscriptions),
+                ];
+            }
+
+            $cycles[] = [
+                'id' => $cycle->ID,
+                'label' => $cycle->Label,
+                'alias' => \Models\Cycle::cyclesAlias($cycle->ID),
+                'inscriptions' => count($cycleInscriptions),
+                'reinscriptions' => count($cycleReinscriptions),
+                'niveaux' => $cycleNiveaux,
+            ];
+        }
         sendResponse(['cycles' => $cycles]);
     }
 
@@ -381,8 +507,12 @@ class ContentController
         sendResponse(['ins' => $new_inscriptions, 'rein' => $reinscriptions, 'days' => $d]);
     }
 
-    public function getInsReinByWeek()
+    public function getInsReinByWeek($filterSite = null)
     {
+        $days = [];
+        if ($filterSite) {
+            $whereSite  = 'Site = "' . $filterSite . '"';
+        }
         $promotion  =  \Models\Promotion::promotion_overte_pour_inscriptions();
         $last_promotion  =  $promotion->lastPromo();
         for ($i = 1; $i <= 50; $i++) {
@@ -403,7 +533,8 @@ class ContentController
                     "Depart IS NULL",
                     "`Validated` IS NOT NULL",
                     'Promotion' => $promotion->ID,
-                    $where_promotion
+                    $where_promotion,
+                    $whereSite,
                 ]
             ]);
             // print_r($new_inscriptions_);
@@ -412,7 +543,8 @@ class ContentController
                     "DATE(DateInscripiton) BETWEEN '" . $date['start'] . "' AND '" . $date['end'] . "'",
                     'Promotion' => $promotion->ID,
                     "`Validated` IS NOT NULL",
-                    $where_promotion_
+                    $where_promotion_,
+                    $whereSite
                 ]
             ]);
             if (!$new_inscriptions_  && !$reinscriptions_) {
@@ -586,19 +718,28 @@ class ContentController
     {
         $data = array();
         $where = array();
+        $startDate = '1970-01-01';
+        $endDate = date('Y-m-d');
         $date =  isset($_GET["date"]) ? $_GET["date"] : "";
+        if ($date) {
+            $startDate = explode(' ', (explode(',', $_GET["date"])[0]));
+            $endDate = explode(',', $_GET["date"]) && explode(',', $_GET["date"])[1] ? explode(',', $_GET["date"])[1] : null;
+            $startDate = date('Y-m-d', strtotime($startDate[1] . ' ' . $startDate[2] . ' ' . $startDate[3]));
+            $endDate = $endDate ? date('Y-m-d', strtotime($endDate[1] . ' ' . $endDate[2] . ' ' . $endDate[3])) : date('Y-m-d');
+        }
         $where[] = "PostCategorie  IN(SELECT `ID` FROM  `com_postcategories` WHERE `Alias`IN ('actualites','note','blog'))";
-        $where[] = "Date LIKE CONCAT('%','" . $date . "','%')";
+        $where[] = "Date BETWEEN ('" . $startDate . "') AND ('" . $endDate . "')";
         $posts = Models\Post::getList(array('where' => $where));
-        $messages = Models\COM\Message::getList(array('where' => ["Date LIKE CONCAT('%','" . $date . "','%')"]));
-        $reclamation = Models\HDDemande::getList(array('where' => ["Date LIKE CONCAT('%','" . $date . "','%')"]));
+        $messages = Models\COM\Message::getList(array('where' => ["Date BETWEEN ('" . $startDate . "') AND ('" . $endDate . "')"]));
+        $reclamation = Models\HDDemande::getList(array('where' => ["Date BETWEEN ('" . $startDate . "') AND ('" . $endDate . "')"]));
         $posts_orders = "SELECT DISTINCT (com_posts.Label) , COUNT(com_postviews.ID) as 'post_count'  from com_postviews INNER JOIN com_posts on com_posts.ID =com_postviews.Post  GROUP BY  com_postviews.Post ORDER BY post_count DESC LIMIT 10;";
         $where = array(
             'PostCategorie' => Models\PostCategorie::getByAlias('album')->ID,
-            "Date LIKE CONCAT('%','" . $date . "','%')",
+            "Date BETWEEN ('" . $startDate . "') AND ('" . $endDate . "')",
         );
         $albums = Models\Post::getList(array('where' => $where));
-        $date_query = $date ? "and `com_posts`.`Date` LIKE CONCAT('%','" . $date . "','%')" : '';
+        // $date_query = $date ? "and `com_posts`.`Date` LIKE CONCAT('%','" . $date . "','%')" : '';
+        $date_query = $date ? "and `com_posts`.`Date` BETWEEN ('" . $startDate . "') AND ('" . $endDate . "')" : '';
         $devoir_query = [
             "devoires" => "SELECT
             com_posts.Date,
@@ -793,91 +934,76 @@ class ContentController
             $count_ev = (isset($controles_continue_by_semestre) && $controles_continue_by_semestre[0] ? $controles_continue_by_semestre[1] : 0);
             try {
                 // code...
-                $count_evs = ($count_ev *   count($niveau_unites->Unite->getProgramtionMatieres($niveau_unites->Niveau->get('ID')))) * count($niveaux_classes);
+                $count_evs = ($count_ev *   count($niveau_unites->Unite->getProgramtionMatieres($niveau_unites->Niveau->get('ID'))));
+                // $count_evs = $count_ev;
             } catch (\Throwable $th) {
                 continue;
             }
             $controles_programmes +=  $count_evs;
         }
-
+        $where = [];
+        $where[] =   'ID IN (SELECT ID FROM `sco_evaluations` WHERE `Classe` = ' . $filterClasse . ' AND `Niveau` = ' . $filterNiveau . ' AND `Semestre` = ' . $filterSemestre . ' GROUP By Matiere , Rang ,TypeExam)';
+        $controles_planifier = DB::reader('SELECT count(ID) FROM `sco_evaluations` WHERE `Classe` = ' . $filterClasse . ' AND `Niveau` = ' . $filterNiveau . ' AND `Semestre` = ' . $filterSemestre . ' GROUP By Matiere , Rang ,TypeExam');
+        $where = [];
         $where[] =  'Classe = ' . $filterClasse;
 
-        // $where[] =  'NotesValidees is null';
         $where[] =   'Semestre = ' . $filterSemestre;
-        $where[] =  'date < curdate()';
-        $controles_planifier = count(Evaluation::getList(['where' => $where]));
+        $where[] =  'Date < CURDATE()';
 
-        unset($where[3]);
-        // $where[] =  'NotesPubliees is not null';
-        $where[] =  'date > curdate()';
-        $controles_passes = Evaluation::getList(['where' => $where]);
+        $controles_passes = DB::reader('SELECT count(ID) FROM `sco_evaluations` WHERE `Classe` = ' . $filterClasse . ' AND `Niveau` = ' . $filterNiveau . ' AND Date < CURDATE() AND `Semestre` = ' . $filterSemestre . ' GROUP By Matiere , Rang ,TypeExam');;
+
 
         unset($where[3]);
         $where[] =  'ID in (SELECT notes.Evaluation from notes)';
         $controles_notes = Evaluation::getList(['where' => $where]);
 
 
+        // statistics by unites 
+        $unites_evaluations = [];
+        foreach ($niveaux_unites as $niveau_unites) {
+            $controles_programmes_ = 0;
+            $controles_continue_by_semestre = $filterSemestre == 1 ? explode(',', $niveau_unites->Evaluations) : explode(',', $niveau_unites->EvaluationsS2);
+            $count_evs = 0;
+            $count_ev = (isset($controles_continue_by_semestre) && $controles_continue_by_semestre[0] ? $controles_continue_by_semestre[1] : 0);
+            try {
+                // code...
+                $count_evs = ($count_ev * count($niveau_unites->Unite->getProgramtionMatieres($niveau_unites->Niveau->get('ID'))));
+            } catch (\Throwable $th) {
+                continue;
+            }
+            $controles_programmes_ +=  $count_evs;
+            $controles_passes_ = DB::reader('SELECT count(ID) FROM `sco_evaluations` WHERE Classe = ' . $filterClasse . ' AND `Niveau` = ' . $filterNiveau . ' AND Unite = ' . $niveau_unites->Unite->ID . ' AND Date < CURDATE() AND `Semestre` = ' . $filterSemestre . ' GROUP By Matiere , Rang ,TypeExam');
+            $controles_planifier_ = DB::reader('SELECT count(ID) FROM `sco_evaluations` WHERE `Classe` = ' . $filterClasse . ' AND Unite = ' . $niveau_unites->Unite->ID  . ' AND `Niveau` = ' . $filterNiveau . ' AND `Semestre` = ' . $filterSemestre . ' GROUP By Matiere , Rang ,TypeExam');
+            $where = [];
+            $where['Classe'] =  $filterClasse;
+            $where['Semestre'] = $filterSemestre;
+            $where['Unite'] = $niveau_unites->Unite->ID;
+            $where[] =  'ID in (SELECT notes.Evaluation from notes)';
+            $controles_notes_ = Evaluation::getList(['where' => $where]);
+            $unites_evaluations[] = [
+                'unite_label' => $niveau_unites->Unite->Label,
+                'controles_programmes' => $controles_programmes_,
+                'controles_planifier' => count($controles_planifier_),
+                'controles_passes' => count($controles_passes_),
+                'controles_notes' => count($controles_notes_),
+            ];
+        }
+
+        // matiere litteraires and unites 
+        // $matieres_litt = null;
+        // echo '<pre>';
+        // print_r($matieres_litt);
+        // echo '</pre>';
+        // exit;
         $data['classes'] = $classes;
         $data['cycles'] = $cycles;
         $data['niveaux'] = $niveaux;
         $data['semestres'] = $semestres;
         $data['inscriptions_per_classe'] = $inscriptions_per_classe;
         $data['controles_programmes'] = $controles_programmes;
-        $data['controles_planifier'] = $controles_planifier;
+        $data['controles_planifier'] = count($controles_planifier);
         $data['controles_passes'] = count($controles_passes);
         $data['controles_notes'] = count($controles_notes);
-        print_r(json_encode($data));
-    }
-    public function getUniteEvaluations()
-    {
-        $promotion  =  \Models\Promotion::promotion_overte_pour_inscriptions();
-        $last_promotion  =  $promotion->lastPromo();
-        $data = [];
-        $where = [];
-        $niveau = isset($_GET["niveau"])  && $_GET["niveau"] && $_GET["niveau"] != 'Tous' ?  Models\Niveau::where(['Label' => $_GET["niveau"]])->first()->get('ID')  : null;
-        $filterPeriod = isset($_GET["period"])  && $_GET["period"] == "Semestre 1" ? 1 : 2;
-        $filterNiveau = $niveau ? 'Niveau = ' . $niveau : 'Niveau IS NOT NULL';
-        $where[] =  'NotesValidees is not null';
-        $where[] =  'NotesPubliees is not null';
-        $where['Semestre'] =  $filterPeriod;
-        $unite = null;
-        if (isset($_GET['unite']) && $_GET['unite']) {
-            $unite = Unite::where(['Label' => $_GET['unite']])->first();
-        }
-        $unites = Unite::getList();
-        $unites_evaluations = [];
-        foreach ($unites as $unite) {
-            $total = 0;
-            $where['Unite'] =  $unite->ID;
-            # code...
-            $evaluations_programmes =  0;
-            $niveaux_unites = NiveauUnite::getList(['where' => ['Unite' => $unite->ID,  $filterNiveau]]);
-            foreach ($niveaux_unites as $niveau_unites) {
-                $semestre_count_evaluations = 0;
-                $semestre_evaluations = $filterPeriod == 1 ?  explode(',', $niveau_unites->Evaluations) : explode(',', $niveau_unites->EvaluationsS2);
-                $semestre_count_evaluations += (isset($semestre_evaluations) && $semestre_evaluations[0]   ? $semestre_evaluations[1] : 0);
-                try {
-                    // code...
-                    $evaluations_programmes += ($semestre_count_evaluations) *  ($niveau_unites->getMatieres() ? count($niveau_unites->getMatieres()) : 0);
-                } catch (\Throwable $th) {
-                    continue;
-                }
-            }
-
-            $evaluations_passed =  Evaluation::getList(['where' => $where]);
-            $unites_evaluations[] = [
-                'evaluations_passed' => count($evaluations_passed),
-                'evaluations_programmes' => $evaluations_programmes,
-                'unite_label' => $unite->Label,
-            ];
-        }
-        echo  '<pre>';
-        print_r($unites_evaluations);
-        echo  '</pre>';
-        exit;
-        $matieres =   Matiere::getList(['where' => ['unite' => ($unite ? $unite->ID :  $unites[0]->ID)]]);
-        // $cont_passes_unites = DB::reader("SELECT count(sco_evaluations.ID) 'count_ev' , sco_unites.Label FROM sco_evaluations INNER JOIN sco_unites on sco_evaluations.Unite = sco_unites.ID WHERE Niveau IS NOT NULL AND Classe IS NOT NULL AND `Semestre` = 1 AND NotesValidees is not null AND NotesPubliees is not null AND sco_evaluations.ID in (SELECT notes.Evaluation from notes) GROUP by sco_unites.Label;");
-
         $data['unites_evaluations'] = $unites_evaluations;
         print_r(json_encode($data));
     }
@@ -910,11 +1036,11 @@ class ContentController
                 'icon' =>  ['icon' => 'tabler-notes'],
                 'to' => 'analytics-noteclasse',
             ],
-            // [
-            //     'title' => 'Select',
-            //     'to' => 'forms-select',
-            //     'icon' => ['icon' => 'tabler-file']
-            // ],
+            [
+                'title' => 'Select',
+                'to' => 'forms-select',
+                'icon' => ['icon' => 'tabler-file']
+            ],
         ];
         $data['links'] = $links;
         print_r(json_encode($data));

@@ -3,47 +3,81 @@
     <div class="courses-container" v-if="!courseExists">
       <h1 class="header-learning"></h1>
       <div class="grid">
-        <div class="bx">
+        <div
+          class="bx"
+          :style="
+            rubriques_tree &&
+            rubriques_tree[0] &&
+            rubriques_tree[0].lecons &&
+            rubriques_tree[0].lecons[0]
+              ? ''
+              : 'overflow-y: hidden;'
+          "
+        >
           <div
-            class="col"
-            v-for="rubrique in rubriques_tree"
-            v-bind:key="rubrique.id"
+            v-if="
+              rubriques_tree &&
+                rubriques_tree[0] &&
+                rubriques_tree[0].lecons &&
+                rubriques_tree[0].lecons[0]
+            "
           >
-            <h3 class="title">{{ rubrique.label }}</h3>
-            <div class="fx fx-wrap fx-courses">
-              <div
-                v-for="(rub, index) in rubrique.lecons"
-                v-bind:key="rub.id"
-                @click="getCourse(rub.id, index - 1, rubrique.lecons.length)"
-                class="course-div"
-              >
-                <!-- [attr.data-index]="i" -->
+            <div
+              class="col"
+              v-for="rubrique in rubriques_tree"
+              v-bind:key="rubrique.id"
+            >
+              <h3 class="title">{{ rubrique.label }}</h3>
+              <div class="fx fx-wrap fx-courses">
                 <div
-                  class="lec"
-                  :class="{ 'selected-lecon': rub.label == course.label }"
+                  v-for="(rub, index) in rubrique.lecons"
+                  v-bind:key="rub.id"
+                  @click="getCourse(rub.id, index - 1, rubrique.lecons.length)"
+                  class="course-div"
                 >
-                  <span class="number">{{ (index += 1) }} . </span>
-                  <span
-                    class="lecon"
+                  <!-- [attr.data-index]="i" -->
+                  <div
+                    class="lec"
                     :class="{ 'selected-lecon': rub.label == course.label }"
                   >
-                    {{ rub.label }}
+                    <span class="number">{{ (index += 1) }} . </span>
+                    <span
+                      class="lecon"
+                      :class="{ 'selected-lecon': rub.label == course.label }"
+                    >
+                      {{ rub.label }}
+                    </span>
+                  </div>
+
+                  <span
+                    class="percent close-learn"
+                    v-if="rub.percent > 0 && rub.percent <= 75"
+                    >{{ rub.percent }}
+                  </span>
+                  <span
+                    class="percent success-learn"
+                    v-else-if="rub.percent > 75"
+                    >{{ rub.percent }}
+                  </span>
+                  <span class="percent no-learn" v-else-if="rub.percent == 0"
+                    >{{ rub.percent }}
                   </span>
                 </div>
-
-                <span
-                  class="percent close-learn"
-                  v-if="rub.percent > 0 && rub.percent <= 75"
-                  >{{ rub.percent }}
-                </span>
-                <span class="percent success-learn" v-else-if="rub.percent > 75"
-                  >{{ rub.percent }}
-                </span>
-                <span class="percent no-learn" v-else-if="rub.percent == 0"
-                  >{{ rub.percent }}
-                </span>
               </div>
             </div>
+          </div>
+
+          <div
+            v-else
+            style="height: 90%;display: flex;justify-content: center;align-items: center;"
+          >
+            <img
+              :src="url_base + '/assets/schools/lms/icons/empty-folder.png'"
+              width="50%"
+              height="50%"
+              style="object-fit: contain;"
+              alt=""
+            />
           </div>
         </div>
 
@@ -1092,7 +1126,7 @@ export default {
       rubriques: null,
       unite: null,
       niveau: null,
-      course_number: null,
+      course_number: 0,
       rub_count: null,
       index_slide: 0,
       sildes_count: 0,
@@ -1134,21 +1168,23 @@ export default {
   methods: {
     fetch() {
       const params = {};
+      console.log("ndndnd");
       // check if there is an id on router
       let course = this.$route.params.pathMatch.split("/")[7];
       let etapeC = this.$route.params.pathMatch.split("/")[8];
       let contentSteps = this.$route.params.pathMatch.split("/")[9];
+
       if (course) {
         course = Number(course);
         this.getCourseFiltered(course);
       }
-      if (etapeC) {
+      if (course && etapeC) {
         etapeC = Number(etapeC);
         this.etape = etapeC;
         this.showCourse(course);
         this.startCourse(course);
       }
-      if (contentSteps) {
+      if (course && etapeC && contentSteps) {
         contentSteps = Number(contentSteps);
         this.etape = etapeC;
         this.contentStep = contentSteps;
@@ -1156,6 +1192,7 @@ export default {
         this.startCourse(course);
       }
       if (!course && !etapeC && !contentSteps) {
+        console.log("dnd");
         this.getCourses();
       }
       // this.url_base = "http://localhost/lms/boti";
@@ -1182,12 +1219,23 @@ export default {
               ? res.data.rubriques_tree[0].lecons[0]
               : []
             : [];
-        this.filters.unite_id = this.course.unite_id;
-        this.filters.niveau_id = this.course.niveau_id;
+        this.filters.unite_id = this.course.unite_id
+          ? this.course.unite_id
+          : res.data.unites[0].value;
+        this.filters.niveau_id = this.course.niveau_id
+          ? this.course.niveau_id
+          : res.data.niveaux[0].value;
         this.niveaux = res.data.niveaux;
         this.unites = res.data.unites;
         this.rubriques_tree = res.data.rubriques_tree;
-        this.course_number = 1;
+        if (
+          res.data.rubriques_tree &&
+          res.data.rubriques_tree[0] &&
+          res.data.rubriques_tree[0].lecons &&
+          res.data.rubriques_tree[0].lecons[0]
+        ) {
+          this.course_number = 1;
+        }
         this.rub_count =
           res.data.rubriques_tree && res.data.rubriques_tree[0]
             ? res.data.rubriques_tree[0].lecons
