@@ -14,7 +14,7 @@
                   
                 </div> -->
                 <span class="word-answer col-4" style="overflow-x: auto;">{{ item.firstanswer }}</span>
-                <span class="col-2">
+                <span class="col-2" style="">
                   <svg
                     fill="#000000"
                     viewBox="0 0 24 24"

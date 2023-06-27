@@ -2,40 +2,44 @@
   <div class="content-ressource table">
     <div
       class="wrapper-ress"
-      style="justify-content: space-around !important;width: 100% !important;margin: 0 !important;"
+      style="justify-content: flex-start !important;width: 100% !important;margin: 0 !important;"
     >
-      <div class="guide">
+      <div class="guide" style="margin-bottom: 10px;">
         {{ ressource.answer }}
       </div>
-
-      <table
-        class="table table-bordered mt-2"
-        style="height: 300px;
-    display: block;
-    overflow: auto;"
-      >
-        <thead>
-          <tr>
-            <th
-              class="text-center"
-              style="font-size: 2rem;color: #171656;"
-              v-for="(col, y) in ressource.content.rows[0].row"
-              :key="y"
-            >
-              {{ col.col }}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, i) in ressource.content.rows" v-if="i > 0" :key="i">
-            <td v-for="(col, y) in ressource.content.rows[i].row" :key="y">
-              <div style="font-size: 2rem;">
+      <div style="height: 60vh;overflow: auto;padding-top: 30px;width: 100%;">
+        <table class="table table-bordered mt-2" style="overflow: auto;">
+          <thead>
+            <tr>
+              <th
+                class="text-center"
+                style="font-size: 2rem;color: #171656;min-width: 200px"
+                v-for="(col, y) in ressource.content.rows[0].row"
+                :key="y"
+              >
                 {{ col.col }}
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(item, i) in ressource.content.rows"
+              v-if="i > 0"
+              :key="i"
+            >
+              <td
+                v-for="(col, y) in ressource.content.rows[i].row"
+                :key="y"
+                style="min-width: 200px; "
+              >
+                <div style="font-size: 2rem;">
+                  {{ col.col }}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -48,7 +52,7 @@ export default {
 
 <style lang="scss">
 .guide {
-  font-size: 4rem;
+  font-size: 2rem;
   color: #171656;
 }
 .rwd-table {

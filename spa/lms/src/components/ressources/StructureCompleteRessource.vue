@@ -12,23 +12,34 @@
             :key="i"
           >
             <span style="margin-right: 15px;">{{ con.content }}</span>
-            <span
-              style="color: white;border-radius: 15px;"
+            <input
+              type="text"
+              :value="con.answer"
+              style="color: white;border-radius: 15px;width: 30%;height: 10vh;overflow-x: auto;font-weight: 600;font-size: 3rem;"
               class="form-control form-control-solid structureAnswer"
-              >{{ con.answer }}</span
-            >
+            />
           </div>
         </div>
       </div>
     </div>
-    <button class="check-answer" @click="showStructureAnswers()">
-      <img
-        width="50px"
-        height="50px"
-        :src="url_base + '/assets/lms/icons/magic-wand.png'"
-        alt=""
-      />
-    </button>
+    <div class="check-answer">
+      <button @click="showStructureAnswers()">
+        <img
+          width="50px"
+          height="50px"
+          :src="url_base + '/assets/lms/icons/magic-wand.png'"
+          alt=""
+        />
+      </button>
+      <button @click="showStructureAnswers()">
+        <img
+          width="50px"
+          height="50px"
+          :src="url_base + '/assets/lms/icons/magic-wand.png'"
+          alt=""
+        />
+      </button>
+    </div>
   </div>
 </template>
 
@@ -69,12 +80,26 @@ export default {
     }
   }
 }
+
+.check-answer {
+  position: absolute;
+  right: 2%;
+  bottom: 2%;
+  width: 97%;
+  display: flex;
+  justify-content: space-between;
+}
+.magic-brasher {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
 @media (min-width: 1500px) {
   .structure-complete {
-    font-size: 4rem;
+    font-size: 2.5rem;
   }
   .structureAnswer {
-    font-size: 2rem;
+    // font-size: 2rem;
   }
 }
 </style>

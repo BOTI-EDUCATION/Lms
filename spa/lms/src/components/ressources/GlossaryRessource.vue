@@ -183,7 +183,8 @@ export default {
 .gloassary-name {
   font-size: 30px;
   margin-bottom: 5px;
-  width: 100%;
+  width: 70%;
+  margin: auto !important;
   overflow: hidden;
   color: #171656;
 }
@@ -228,6 +229,9 @@ export default {
   position: absolute;
   top: 55%;
   transform: translateY(-50%);
+  height: 50%;
+  overflow: hidden;
+  overflow-y: auto;
 }
 .magic-brasher {
   width: 100%;

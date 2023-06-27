@@ -1,4 +1,4 @@
-const mix = require('laravel-mix');
+const mix = require("laravel-mix");
 
 /*
  |--------------------------------------------------------------------------
@@ -11,7 +11,9 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.setPublicPath("../../assets/spa/lms/").js('src/appAdmin.js', 'js/app.js')
-  .js('src/appBorne.js', 'js/borne.js')
-  .sass('src/sass/app.scss', 'css')
-  // .extract();
+mix
+  .setPublicPath("../../assets/spa/lms/")
+  .js("src/appAdmin.js", "js/app.js")
+  .js("src/appBorne.js", "js/borne.js")
+  .sass("src/sass/app.scss", "css");
+// .extract();

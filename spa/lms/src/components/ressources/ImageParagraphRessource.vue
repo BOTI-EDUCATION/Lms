@@ -15,7 +15,7 @@
       />
     </div>
 
-    <div class="col-5 paragraph-ressource" v-html="ressource.content"></div>
+    <div class="paragraph-ressource" v-html="ressource.content"></div>
   </div>
 </template>
 
@@ -35,12 +35,12 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   overflow-y: auto;
   letter-spacing: 3px;
   line-height: 1.5;
-  font-weight: 700;
-  color: #171656;
+  font-weight: 400;
+  color: black;
   li {
     list-style-type: disc;
     &:hover {
@@ -50,7 +50,7 @@ export default {
     }
   }
   p {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     span {
       color: rgb(63, 66, 84);
       width: 100%;
@@ -61,7 +61,7 @@ export default {
 }
 @media (min-width: 1500px) {
   .paragraph-ressource {
-    font-size: 4rem;
+    font-size: 1.3rem;
   }
 }
 </style>

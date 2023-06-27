@@ -260,41 +260,46 @@
                         >
                           <div
                             class="card-title collapsed"
+                            style="justify-content: space-between;"
                             data-toggle="collapse"
                             :data-target="'#collapseOne6_' + ressource.id"
                           >
-                            <!-- :src="ressource.image_url" -->
-                            <div
-                              style="display: flex;flex-direction: column;justify-content: center;align-items: center;margin-right: 10px;"
-                            >
-                              <img
-                                style="width: 45px;"
-                                :src="
-                                  getRessourceEtapeImage(ressource.type_label)
-                                "
-                                alt="not"
-                              />
-                              <span
-                                v-if="ressource.type_label"
-                                class="label label-info label-inline mt-2"
-                                >{{ ressource.type_label }}</span
+                            <div style="display: flex;align-items: center;">
+                              <!-- :src="ressource.image_url" -->
+                              <div
+                                style="display: flex;flex-direction: column;justify-content: center;align-items: center;margin-right: 10px;"
                               >
-                            </div>
-                            <div style="margin-right:5px">
-                              <h5 style="font-weight: 700 !important">
-                                {{ ressource.label }}
-                              </h5>
-                              <p
-                                class="
+                                <img
+                                  style="width: 45px;"
+                                  :src="
+                                    getRessourceEtapeImage(ressource.type_label)
+                                  "
+                                  alt="not"
+                                />
+                                <span
+                                  v-if="ressource.type_label"
+                                  class="label label-info label-inline mt-2"
+                                  >{{ ressource.type_label }}</span
+                                >
+                              </div>
+
+                              <div style="margin-right:5px">
+                                <h5 style="font-weight: 700 !important">
+                                  {{ ressource.label }}
+                                </h5>
+                                <p
+                                  class="
                                   font-inter font-weight-400 font-size-sm
                                   mr-2
                                 "
-                                style="width: 80%;"
-                              >
-                                {{ ressource.introduction }}
-                              </p>
+                                  style="width: 80%;"
+                                >
+                                  {{ ressource.introduction }}
+                                </p>
+                              </div>
                             </div>
-                            <div style="margin-left:5px">
+
+                            <div style="margin-right: 15px;">
                               <a
                                 v-if="$session.user.role == 'admin'"
                                 :href="url_base + lecon.id + '/' + ressource.id"
@@ -1390,7 +1395,14 @@
                           style="background-position: center;
                           background-size: contain;"
                           v-bind:style="{
-                            'background-image': 'url(' + content.file + ')',
+                            'background-image':
+                              'url(' +
+                              url_base +
+                              '/assets/schools/' +
+                              url_base.split('/')[4] +
+                              '/lms/lecons_files/' +
+                              content.content.images[activeTextImage] +
+                              ')',
                           }"
                         >
                           <div class="image-input-wrapper"></div>
@@ -1405,7 +1417,7 @@
                             <input
                               type="file"
                               name="image"
-                              @change="onImageTextChange"
+                              @change="onImageTextChangeSave"
                               accept=".png, .jpg, .jpeg, .svg"
                             />
                             <input type="hidden" name="profile_avatar_remove" />
@@ -1427,13 +1439,131 @@
                             <i class="ki ki-bold-close icon-xs text-muted"></i>
                           </span>
                         </div>
+                        <template>
+                          <v-sheet
+                            class="mx-auto"
+                            elevation="8"
+                            max-width="800"
+                            style="background: white;width: 25vh;overflow: hidden;overflow-x: auto;"
+                          >
+                            <v-slide-group
+                              v-model="model"
+                              class="pa-4"
+                              active-class="success"
+                              style="width: 30vh;display: block;overflow-x: auto;"
+                              show-arrows
+                            >
+                              <div
+                                style="overflow-x: hidden;overflow-y: auto;height: 30vh;width: 21vh;"
+                              >
+                                <v-slide-item
+                                  v-for="(img, index) in content.content.images"
+                                  :key="index"
+                                >
+                                  <v-card
+                                    :color="
+                                      activeTextImage == index
+                                        ? undefined
+                                        : 'grey lighten-1'
+                                    "
+                                    class="ma-5"
+                                    height="100"
+                                    width="100"
+                                    style="background-size: cover;background-position: center;position: relative;"
+                                    v-bind:style="[
+                                      {
+                                        'background-image':
+                                          'url(' +
+                                          url_base_ +
+                                          '/assets/schools/' +
+                                          url_base_.split('/')[4] +
+                                          '/lms/lecons_files/' +
+                                          img +
+                                          ')',
+                                      },
+                                      activeTextImage != index
+                                        ? { opacity: '0.5' }
+                                        : '',
+                                    ]"
+                                    @click="toggleTextImage(index)"
+                                  >
+                                    <a
+                                      href="javascript:void(0)"
+                                      @click="removeTextImage(index)"
+                                      class="btn btn-icon btn-light btn-hover-danger btn-sm mr-1"
+                                      style="font-weight: bold;position: absolute;top: 0;right: -40%;"
+                                    >
+                                      <span
+                                        class="svg-icon svg-icon-md svg-icon-danger"
+                                      >
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          xmlns:xlink="http://www.w3.org/1999/xlink"
+                                          width="24px"
+                                          height="24px"
+                                          viewBox="0 0 24 24"
+                                          version="1.1"
+                                        >
+                                          <g
+                                            stroke="none"
+                                            stroke-width="1"
+                                            fill="none"
+                                            fill-rule="evenodd"
+                                          >
+                                            <rect
+                                              x="0"
+                                              y="0"
+                                              width="24"
+                                              height="24"
+                                            />
+                                            <path
+                                              d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z"
+                                              fill="#000000"
+                                              fill-rule="nonzero"
+                                            />
+                                            <path
+                                              d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z"
+                                              fill="#000000"
+                                              opacity="0.3"
+                                            />
+                                          </g>
+                                        </svg>
+                                      </span>
+                                    </a>
+                                  </v-card>
+                                </v-slide-item>
+                              </div>
+                            </v-slide-group>
+                          </v-sheet>
+
+                          <button
+                            v-show="false"
+                            type="button"
+                            @click="newImageText()"
+                            class="mt-2 btn btn-nice btn-primary spinner-darker-info spinner-right"
+                            style="width: fit-content;margin-left: auto;display: block;"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="26"
+                              height="26"
+                              fill="currentColor"
+                              class="bi bi-plus"
+                              viewBox="0 0 16 16"
+                            >
+                              <path
+                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+                              />
+                            </svg>
+                          </button>
+                        </template>
                       </div>
                     </div>
                     <textarea
                       class="form-control form-control-solid"
                       id="textarea"
                       style="color: black;width: 60%;border: none;resize: none;"
-                      v-model="content.content"
+                      v-model="content.content.text"
                     ></textarea>
                   </div>
                 </div>
@@ -3601,6 +3731,7 @@ export default {
       tableCells: 0,
       tableRows: 0,
       tableIsReady: false,
+      activeTextImage: 0,
       activeGlossary: 0,
       currentSlideIndex: 0,
       activeGlossaryForm: false,
@@ -3887,7 +4018,7 @@ export default {
             e.target.disabled = false;
             e.target.classList.toggle("spinner");
           }
-        }); 
+        });
       this.error.errorTitre = "";
       this.error.errorIntro = "";
     },
@@ -3940,7 +4071,7 @@ export default {
       const config = {
         headers: { "content-lecon": "multipart/form-data" },
       };
-
+      console.log(this.content);
       let formData = new FormData();
       $.each(this.content, function(key, value) {
         if (key == "content") {
@@ -4105,6 +4236,15 @@ export default {
       if (!this.glossaryItem.image) {
         this.activeGlossaryForm = false;
       }
+    },
+    newImageText() {
+      this.content.content.images.push("");
+    },
+    removeTextImage(index) {
+      this.content.content.images.splice(index, 1);
+    },
+    toggleTextImage(index) {
+      this.activeTextImage = index;
     },
     linedraw(x1, y1, x2, y2, col, content, answer) {
       if (x2 < x1) {
@@ -4468,7 +4608,6 @@ export default {
       this.clearFormContent();
       this.content.type_id = content;
       this.content.duree = 5;
-      console.log(this.content);
       this.content.ressource_id = ressource;
       if (this.content.type_id == 7) {
         this.content.content = [];
@@ -4528,6 +4667,14 @@ export default {
         } else {
           this.content.content = {
             rows: [],
+          };
+        }
+      } else if (this.content.type_id == 6) {
+        if (this.content.content) {
+        } else {
+          this.content.content = {
+            text: "",
+            images: [],
           };
         }
       }
@@ -4662,6 +4809,21 @@ export default {
             ];
             this.activeGlossary = this.content.content[i].glossary.length - 1;
           }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    onImageTextChangeSave(e) {
+      const config = {
+        headers: { "content-lecon": "multipart/form-data" },
+      };
+      let formData = new FormData();
+      formData.append("File", e.target.files[0]);
+      axios
+        .post("saveTextImage", formData, config)
+        .then((response) => {
+          this.content.content.images.push(response.data.path);
         })
         .catch((error) => {
           console.log(error);
@@ -5179,10 +5341,16 @@ export default {
   background: #b3b3b3;
   border-radius: 5px;
 }
-
+.v-slide-group__wrapper::v-deep {
+  overflow-x: auto;
+}
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #858585;
+}
+
+.v-slide-group__wrapper::v-deep {
+  overflow-x: auto;
 }
 @media (max-width: 1080px) {
   .content-grid > div:first-child {

@@ -77,10 +77,55 @@ class Lecons extends Model
 	public function getIcone()
 	{
 		if (!$this->Icone) {
-			return 'https://via.placeholder.com/300/004c68/FFF?text=Image';
+			// return 'https://via.placeholder.com/300/004c68/FFF?text=Image';
+			return null;
 		}
 
 		return \URL::base() . \Config::get('path-lms-files') . '/lecons_files/'  . $this->get('Icone');
+	}
+	public function nextLecon($lec)
+	{
+		$order = (int)$this->Ordre + 1;
+		$next_lecon = Lecons::getList(['where' => ['Rubrique' => $this->Rubrique->ID, 'Ordre' => $order]]);
+		$next_lecon = isset($next_lecon) && isset($next_lecon[0]) ? $next_lecon[0] : null;
+		// echo '<pre>';
+		// // print_r($this->Rubrique->ID);
+		// print_r($lec);
+		// echo '</pre>';
+		// exit;
+		if (!$next_lecon) {
+			$rubriques = LeconRubrique::getList();
+			$rubrique_id = null;
+			foreach ($rubriques as $key => $rubrique) {
+				# code...
+				if ($rubrique->ID == $this->Rubrique->ID) {
+					$rubrique_id = isset($rubriques[$key + 1]) ? $rubriques[$key + 1]->ID : $rubriques[$key]->ID;
+					break;
+				}
+			}
+			if ($rubrique_id) {
+				$whereNot = 'Rubrique = ' . $rubrique_id;
+				$next_lecons = Lecons::getList(['where' => $whereNot]);
+				foreach ($next_lecons as $key => $next_lecon_) {
+					if ($next_lecon_->ID ==  $lec) {
+						$next_lecon = isset($next_lecons[$key + 1]) ? $next_lecons[$key + 1] : $next_lecons[$key];
+						break;
+					} else if ($next_lecon_->ID !=  $lec) {
+						$next_lecon = isset($next_lecons[$key]) ? $next_lecons[$key] : null;
+						break;
+					} else {
+						$next_lecon = isset($next_lecons[count($next_lecons) - 1]) ? $next_lecons[count($next_lecons) - 1] : null;
+						break;
+					}
+				}
+			}
+			// echo '<pre>';
+			// print_r($next_lecon);
+			// // print_r($rubriques);
+			// echo '</pre>';
+			// exit;
+		}
+		return $next_lecon ? $next_lecon->ID : null;
 	}
 	public function getPercent()
 	{

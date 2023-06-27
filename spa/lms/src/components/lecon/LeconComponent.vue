@@ -86,7 +86,7 @@
           </div>
         </div>
 
-        <div class="row" v-if="emptyLecons">
+        <div class="row" v-if="emptyLecons && loaded">
           <div
             class="col-md-4"
             v-for="rubrique in rubriques_tree"
@@ -177,7 +177,7 @@
           </div>
         </div>
         <div
-          v-else-if="emptyLecons == false"
+          v-else-if="emptyLecons == false && loaded"
           style="height: 40vh;text-align: center;"
         >
           <img
@@ -198,49 +198,33 @@
             niveau/matière
           </a>
         </div>
-        <div v-else style="height: 65vh;text-align: center;">
+        <div v-else-if="!loaded" style="height: 65vh;text-align: center;">
           <svg
             version="1.1"
-            id="L5"
-            height="50%"
+            id="L9"
             xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink"
+            height="50%"
             x="0px"
             y="0px"
             viewBox="0 0 100 100"
             enable-background="new 0 0 0 0"
             xml:space="preserve"
           >
-            <circle fill="black" stroke="none" cx="6" cy="50" r="3">
+            <path
+              fill="#2196f3"
+              d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50"
+            >
               <animateTransform
                 attributeName="transform"
+                attributeType="XML"
+                type="rotate"
                 dur="1s"
-                type="translate"
-                values="0 15 ; 0 -15; 0 15"
+                from="0 50 50"
+                to="360 50 50"
                 repeatCount="indefinite"
-                begin="0.1"
               />
-            </circle>
-            <circle fill="black" stroke="none" cx="30" cy="50" r="3">
-              <animateTransform
-                attributeName="transform"
-                dur="1s"
-                type="translate"
-                values="0 10 ; 0 -10; 0 10"
-                repeatCount="indefinite"
-                begin="0.2"
-              />
-            </circle>
-            <circle fill="black" stroke="none" cx="54" cy="50" r="3">
-              <animateTransform
-                attributeName="transform"
-                dur="1s"
-                type="translate"
-                values="0 5 ; 0 -5; 0 5"
-                repeatCount="indefinite"
-                begin="0.3"
-              />
-            </circle>
+            </path>
           </svg>
         </div>
       </div>
@@ -611,6 +595,7 @@ export default {
         .getAttribute("content")}`,
       search: "",
       emptyLecons: null,
+      loaded: null,
       headers: [
         {
           text: "Code",
@@ -679,6 +664,7 @@ export default {
   },
   methods: {
     async fetch() {
+      this.loaded = false;
       this.lecon.unite_id = this.filter.unite_id;
       let params = {};
       $.each(this.filter, function(key, value) {
@@ -707,6 +693,7 @@ export default {
           if (!this.filter.niveau_id) {
             this.filter.niveau_id = response.data.niveau_id;
           }
+          this.loaded = true;
         })
         .catch((error) => console.log(error));
     },

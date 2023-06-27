@@ -29,20 +29,33 @@
                 style="flex-direction: column-reverse;align-items: end;width: 100%;"
                 :key="index"
               >
-                <span>{{ item.answer }}</span>
+                <span
+                  style="font-size: 1.3rem;font-weight: 600;height: fit-content;display: block;line-height: 1.6;"
+                  >{{ item.answer }}</span
+                >
               </div>
             </template>
           </div>
         </div>
       </div>
-      <button class="check-answer" @click="showLinks(ressource.content)">
-        <img
-          width="50px"
-          height="50px"
-          :src="url_base + '/assets/lms/icons/magic-wand.png'"
-          alt=""
-        />
-      </button>
+      <div class="magic-brasher">
+        <button @click="showLinks(ressource.content)">
+          <img
+            width="50px"
+            height="50px"
+            :src="url_base + '/assets/lms/icons/magic-wand.png'"
+            alt=""
+          />
+        </button>
+        <button @click="showLinks(ressource.content)">
+          <img
+            width="50px"
+            height="50px"
+            :src="url_base + '/assets/lms/icons/magic-wand.png'"
+            alt=""
+          />
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -106,6 +119,11 @@ export default {
   border-radius: 10px;
   font-size: 2rem;
   color: #171656;
+}
+.magic-brasher {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 @media (mix-width: 1500px) {
   .link-word {

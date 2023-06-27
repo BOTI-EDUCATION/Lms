@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div class="courses-container" v-if="!courseExists">
+    <!-- v-if="!courseExists" -->
+    <div
+      class="courses-container"
+      v-bind:style="[courseExists ? { display: 'none' } : '']"
+    >
       <h1 class="header-learning"></h1>
       <div class="grid">
         <div
@@ -15,6 +19,7 @@
           "
         >
           <div
+            style="    height: 100%;"
             v-if="
               rubriques_tree &&
                 rubriques_tree[0] &&
@@ -32,13 +37,21 @@
                 <div
                   v-for="(rub, index) in rubrique.lecons"
                   v-bind:key="rub.id"
-                  @click="getCourse(rub.id, index - 1, rubrique.lecons.length)"
                   class="course-div"
                 >
                   <!-- [attr.data-index]="i" -->
                   <div
                     class="lec"
+                    style="width: 80%;"
                     :class="{ 'selected-lecon': rub.label == course.label }"
+                    @click="
+                      getCourse(
+                        rub.id,
+                        index - 1,
+                        rubrique.lecons.length,
+                        rubrique.lecons[index + 1]
+                      )
+                    "
                   >
                     <span class="number">{{ (index += 1) }} . </span>
                     <span
@@ -48,20 +61,31 @@
                       {{ rub.label }}
                     </span>
                   </div>
-
-                  <span
-                    class="percent close-learn"
-                    v-if="rub.percent > 0 && rub.percent <= 75"
-                    >{{ rub.percent }}
-                  </span>
-                  <span
-                    class="percent success-learn"
-                    v-else-if="rub.percent > 75"
-                    >{{ rub.percent }}
-                  </span>
-                  <span class="percent no-learn" v-else-if="rub.percent == 0"
-                    >{{ rub.percent }}
-                  </span>
+                  <div style="display: flex;align-items: center;">
+                    <span
+                      style="margin-right: 2px;"
+                      @click="showCourse(rub.id)"
+                    >
+                      <img
+                        width="40px"
+                        :src="url_base + 'assets/lms/icons/jouer.png'"
+                        alt=""
+                      />
+                    </span>
+                    <span
+                      class="percent close-learn"
+                      v-if="rub.percent > 0 && rub.percent <= 75"
+                      >{{ rub.percent }}
+                    </span>
+                    <span
+                      class="percent success-learn"
+                      v-else-if="rub.percent > 75"
+                      >{{ rub.percent }}
+                    </span>
+                    <span class="percent no-learn" v-else-if="rub.percent == 0"
+                      >{{ rub.percent }}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -82,10 +106,16 @@
         </div>
 
         <div class="bx">
-          <div class="bx-child" v-if="course" style="text-align: center">
-            <h4>Cours {{ course_number }} / {{ rub_count }}</h4>
-            <div class="course-title" style="color:black">
-              <h3>{{ course.label }}</h3>
+          <div
+            class="bx-child"
+            v-if="course"
+            style="text-align: center;justify-content: space-evenly;"
+          >
+            <div>
+              <h4>Cours {{ course_number }} / {{ rub_count }}</h4>
+              <div class="course-title" style="color:black">
+                <h3>{{ course.label }}</h3>
+              </div>
             </div>
             <div
               class="obs"
@@ -268,8 +298,12 @@
     <div class="fx-course" v-if="courseExists && !startLearn">
       <div class="text">
         <h1>{{ course.label }}</h1>
-        <div class="img">
-          <img style="margin: 10px 0;" :src="course.icone" alt="" />
+        <div class="img" v-if="course.icone">
+          <img
+            style="margin:0 0  10px 0;height: 70vh;"
+            :src="course.icone"
+            alt=""
+          />
         </div>
         <button
           @click="startCourse(course.id)"
@@ -387,7 +421,7 @@
 
     <!-- show course ressources div  -->
     <div
-      style="overflow: auto;margin-top: 50px;height: 93vh;position: relative;"
+      style="overflow: auto;height: 93vh;position: relative;"
       v-if="courseExists && startLearn"
     >
       <span
@@ -396,11 +430,10 @@
           'background-color': ressources[currentRessource].etape_color,
         }"
         >{{ ressources[currentRessource].type_label }}
-        {{ ressources[currentRessource].label }}
       </span>
 
       <!-- timer : {{ timer_val }} -->
-      <div v-if="ressource" class="main-course-div">
+      <div v-if="ressource && loaded" class="main-course-div">
         <div v-if="ressource.type_id == 1 && ressource.content">
           <title-ressource :content="ressource.content"></title-ressource>
         </div>
@@ -532,16 +565,6 @@
         </div>
         <div v-if="ressource.type_id == 5 && ressource.content"></div>
         <div v-if="ressource.type_id == 6 && ressource.content">
-          <!-- :src="
-          '/lms/assets/schools/boti/lms/lecons_files/' +
-            ressource.image
-            " -->
-          <!-- :src="
-              'https://boti.education/assets/schools/' +
-                url_base +
-                '/lms/lecons_files' +
-                ressource.image
-            " -->
           <text-ressource :ressource="ressource" :url_base="url_base">
           </text-ressource>
         </div>
@@ -637,7 +660,7 @@
           ></schemas-colores-ressource>
         </div>
       </div>
-      <div style="display: flex;">
+      <div style="display: flex;" v-if="loaded">
         <span
           v-if="courseExists && startLearn"
           class="timer"
@@ -689,7 +712,7 @@
             @click="showLevelNavigation()"
           >
             <div>
-              <span> Classe</span> <span> {{ filters.niveau_label }}</span>
+              <span> Le niveau </span> <span> {{ filters.niveau_label }}</span>
             </div>
             <div>
               <img :src="url_base + '/assets/lms/icons/Arrow.png'" alt="" />
@@ -697,75 +720,141 @@
           </button>
         </div>
         <div
-          style="width: 100%; justify-content: space-between"
+          style="width: 100%; justify-content: space-between;align-items: center;"
           v-if="courseExists && !startLearn"
           class="fx filter"
         >
-          <button
-            class="menuLevel choice"
-            style="box-shadow: none;"
-            @click="returnToMainPage()"
-          >
-            <div
-              class="d-flex"
-              style="justify-content: space-between;flex-direction:row;align-items: center;"
+          <div style="display: flex;height: fit-content;">
+            <button
+              class="menuLevel choice"
+              style="box-shadow: none;margin-right: 25px;"
+              @click="returnToMainPage()"
             >
-              <svg
-                fill="#000000"
-                viewBox="0 0 24 24"
-                id="right-arrow"
-                data-name="Flat Color"
-                xmlns="http://www.w3.org/2000/svg"
-                class="icon flat-color"
-                transform="rotate(180)"
+              <div
+                class="d-flex"
+                style="justify-content: space-between;flex-direction:row;align-items: center;"
               >
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></g>
-                <g id="SVGRepo_iconCarrier">
-                  <path
-                    id="primary"
-                    d="M21.71,11.29l-3-3a1,1,0,0,0-1.42,1.42L18.59,11H3a1,1,0,0,0,0,2H18.59l-1.3,1.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l3-3A1,1,0,0,0,21.71,11.29Z"
-                    style="fill: #f7623c;"
-                  ></path>
-                </g>
-              </svg>
-              <span class="ml-2 et-sui" style="margin-left: 10px;">
-                Retour au programme</span
+                <svg
+                  fill="#000000"
+                  viewBox="0 0 24 24"
+                  id="right-arrow"
+                  data-name="Flat Color"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="icon flat-color"
+                  transform="rotate(180)"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      id="primary"
+                      d="M21.71,11.29l-3-3a1,1,0,0,0-1.42,1.42L18.59,11H3a1,1,0,0,0,0,2H18.59l-1.3,1.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l3-3A1,1,0,0,0,21.71,11.29Z"
+                      style="fill: #f7623c;"
+                    ></path>
+                  </g>
+                </svg>
+                <span v-show="false" class="et-sui" style="margin-left: 10px;">
+                  Retour au programme</span
+                >
+              </div>
+            </button>
+            <button @click="startCourse(course.id)" class="menuLevel choice">
+              <div
+                class="d-flex"
+                style="justify-content: space-between;flex-direction:row;align-items: center;"
               >
-            </div>
-          </button>
-          <button @click="startCourse(course.id)" class="menuLevel choice">
-            <div
-              class="d-flex"
-              style="justify-content: space-between;flex-direction:row;align-items: center;"
+                <span class="et-sui" v-show="false">Etape suivante </span
+                ><svg
+                  fill="#ffffff"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  stroke="#ffffff"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      d="M17.707,17.707a1,1,0,0,1-1.414-1.414L19.586,13H2a1,1,0,0,1,0-2H19.586L16.293,7.707a1,1,0,0,1,1.414-1.414l5,5a1,1,0,0,1,0,1.414Z"
+                    ></path>
+                  </g>
+                </svg>
+              </div>
+            </button>
+          </div>
+          <div style="display: flex;height: fit-content;">
+            <button
+              class="menuLevel choice"
+              style="box-shadow: none;margin-right: 25px;"
+              @click="returnToMainPage()"
             >
-              <span class="mr-2 et-sui">Etape suivante </span
-              ><svg
-                fill="#ffffff"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-                stroke="#ffffff"
+              <div
+                class="d-flex"
+                style="justify-content: space-between;flex-direction:row;align-items: center;"
               >
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></g>
-                <g id="SVGRepo_iconCarrier">
-                  <path
-                    d="M17.707,17.707a1,1,0,0,1-1.414-1.414L19.586,13H2a1,1,0,0,1,0-2H19.586L16.293,7.707a1,1,0,0,1,1.414-1.414l5,5a1,1,0,0,1,0,1.414Z"
-                  ></path>
-                </g>
-              </svg>
-            </div>
-          </button>
+                <svg
+                  fill="#000000"
+                  viewBox="0 0 24 24"
+                  id="right-arrow"
+                  data-name="Flat Color"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="icon flat-color"
+                  transform="rotate(180)"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      id="primary"
+                      d="M21.71,11.29l-3-3a1,1,0,0,0-1.42,1.42L18.59,11H3a1,1,0,0,0,0,2H18.59l-1.3,1.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l3-3A1,1,0,0,0,21.71,11.29Z"
+                      style="fill: #f7623c;"
+                    ></path>
+                  </g>
+                </svg>
+                <span v-show="false" class="et-sui" style="margin-left: 10px;">
+                  Retour au programme</span
+                >
+              </div>
+            </button>
+            <button @click="startCourse(course.id)" class="menuLevel choice">
+              <div
+                class="d-flex"
+                style="justify-content: space-between;flex-direction:row;align-items: center;"
+              >
+                <span class="et-sui" v-show="false">Etape suivante </span
+                ><svg
+                  fill="#ffffff"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  stroke="#ffffff"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      d="M17.707,17.707a1,1,0,0,1-1.414-1.414L19.586,13H2a1,1,0,0,1,0-2H19.586L16.293,7.707a1,1,0,0,1,1.414-1.414l5,5a1,1,0,0,1,0,1.414Z"
+                    ></path>
+                  </g>
+                </svg>
+              </div>
+            </button>
+          </div>
         </div>
-
         <div
           style="width: 100%; justify-content: space-between;align-items: center;"
           v-if="courseExists && startLearn"
@@ -774,7 +863,6 @@
           <div class="d-flex" style="align-items: center;display: flex;">
             <button
               class="btn-rounded btn-trans btn-shadow close-btn"
-              style="margin-right: 5px;"
               @click="returnToMainCourse()"
             >
               <svg
@@ -841,7 +929,7 @@
             }}</span>
             <button
               @click="previusRessource()"
-              style="margin-right: 5px;"
+              style="margin-right: 15px;"
               class="btn-rounded  btn-shadow btn-material btn-hero mr-2"
             >
               <svg
@@ -872,7 +960,7 @@
 
             <button
               @click="nextRessource()"
-              style="margin-right: 5px;"
+              style="margin-right: 15px;"
               class="btn-rounded  btn-shadow btn-material btn-hero"
             >
               <svg
@@ -901,7 +989,7 @@
               </svg>
             </button>
             <button
-              style="margin-right: 5px;"
+              style="margin-right: 15px;"
               v-if="!fullScreen"
               @click="fullScreenEcran()"
               class="btn-rounded  btn-shadow btn-material btn-hero"
@@ -913,7 +1001,7 @@
               />
             </button>
             <button
-              style="margin-right: 5px;"
+              style="margin-right: 15px;"
               v-else
               @click="outScreenEcran()"
               class="btn-rounded  btn-shadow btn-material btn-hero"
@@ -927,7 +1015,7 @@
           </div>
           <div class="d-flex" style="align-items: center;display: flex;">
             <button
-              style="margin-right: 5px;"
+              style="margin-right: 15px;"
               @click="previusRessource()"
               class="btn-rounded  btn-shadow btn-material btn-hero"
             >
@@ -958,7 +1046,7 @@
             </button>
 
             <button
-              style="margin-right: 5px;"
+              style="margin-right: 15px;"
               @click="nextRessource()"
               class="btn-rounded  btn-shadow btn-material btn-hero"
             >
@@ -988,7 +1076,7 @@
               </svg>
             </button>
             <button
-              style="margin-right: 5px;"
+              style="margin-right: 15px;"
               v-if="!fullScreen"
               @click="fullScreenEcran()"
               class="btn-rounded  btn-shadow btn-material btn-hero"
@@ -1000,7 +1088,7 @@
               />
             </button>
             <button
-              style="margin-right: 5px;"
+              style="margin-right: 15px;"
               v-else
               @click="outScreenEcran()"
               class="btn-rounded  btn-shadow btn-material btn-hero"
@@ -1104,6 +1192,8 @@ export default {
     return {
       url: "borne_home",
       fullScreen: false,
+      loaded: false,
+      entered: false,
       zoomOnImage: false,
       course: null,
       courseExists: false,
@@ -1167,41 +1257,44 @@ export default {
   },
   methods: {
     fetch() {
-      const params = {};
-      console.log("ndndnd");
-      // check if there is an id on router
-      let course = this.$route.params.pathMatch.split("/")[7];
-      let etapeC = this.$route.params.pathMatch.split("/")[8];
-      let contentSteps = this.$route.params.pathMatch.split("/")[9];
+      if (!this.entered) {
+        const params = {};
+        console.log("ndndnd");
+        console.log("ndndndssss");
+        // check if there is an id on router
+        let course = this.$route.params.pathMatch.split("/")[7];
+        let etapeC = this.$route.params.pathMatch.split("/")[8];
+        let contentSteps = this.$route.params.pathMatch.split("/")[9];
 
-      if (course) {
-        course = Number(course);
-        this.getCourseFiltered(course);
+        if (course) {
+          course = Number(course);
+          this.getCourseFiltered(course);
+        }
+        if (course && etapeC) {
+          this.loaded = false;
+          etapeC = Number(etapeC);
+          this.etape = etapeC;
+          this.showCourse(course);
+          this.startCourse(course);
+        }
+        if (course && etapeC && contentSteps) {
+          contentSteps = Number(contentSteps);
+          this.etape = etapeC;
+          this.contentStep = contentSteps;
+          this.showCourse(course);
+          this.startCourse(course);
+        }
+        if (!course && !etapeC && !contentSteps) {
+          this.getCourses();
+        }
+        // this.url_base = "http://localhost/lms/boti";
+        // console.log(this.url_base);
+        // console.log(
+        //   document.querySelector("meta[name=base_api]").getAttribute("content")
+        // );
       }
-      if (course && etapeC) {
-        etapeC = Number(etapeC);
-        this.etape = etapeC;
-        this.showCourse(course);
-        this.startCourse(course);
-      }
-      if (course && etapeC && contentSteps) {
-        contentSteps = Number(contentSteps);
-        this.etape = etapeC;
-        this.contentStep = contentSteps;
-        this.showCourse(course);
-        this.startCourse(course);
-      }
-      if (!course && !etapeC && !contentSteps) {
-        console.log("dnd");
-        this.getCourses();
-      }
-      // this.url_base = "http://localhost/lms/boti";
-      // console.log(this.url_base);
-      // console.log(
-      //   document.querySelector("meta[name=base_api]").getAttribute("content")
-      // );
     },
-    async getCourse(value, courseIndex = 0, runCount = 0) {
+    async getCourse(value, courseIndex = 0, runCount = 0, next_course = 0) {
       await axios.get(`/lecons/${value}`).then((res) => {
         this.course = res.data.lecon;
         this.filters.unite_id = this.course.unite_id;
@@ -1350,6 +1443,9 @@ export default {
     },
 
     async showCourse(id) {
+      this.course = null;
+      this.entered = true;
+      this.loaded = false;
       await axios.get(`/borne_lecon/${id}`).then((res) => {
         if (res.data.ressources.length > 0) {
           if (res.data.ressources[0].contents.length > 0) {
@@ -1367,6 +1463,7 @@ export default {
           swal.fire("Il n'y a pas de ressources", "", "error");
         }
       });
+      this.loaded = true;
     },
     close_modal(target = "") {
       this.popoverCtrl.dismiss({
@@ -1467,6 +1564,7 @@ export default {
     },
     returnToMainCourse() {
       this.initialize();
+      this.loaded = false;
       this.courseExists = true;
       this.currentRessource = 0;
       this.currentContent = 0;
@@ -1477,8 +1575,11 @@ export default {
       this.fetch();
     },
     async startCourse(id) {
+      this.loaded = false;
       this.initialize();
       this.startLearn = true;
+      this.course = null;
+      this.ressources = null;
       //this.showCourse(id);
       await axios.get(`/borne_lecon/${id}`).then((res) => {
         if (res.data.ressources.length > 0) {
@@ -1498,7 +1599,6 @@ export default {
         }
       });
       if (this.course.last_content_learn && this.course.last_ressource_learn) {
-        console.log(this.course.last_content_learn);
         this.contentStep = this.course.last_content_learn;
         this.etape = this.course.last_ressource_learn;
       }
@@ -1560,6 +1660,7 @@ export default {
           structureAnswers[index].style.color = "white";
         }
       }
+      this.loaded = true;
     },
     async nextRessource() {
       this.initialize();
@@ -1583,6 +1684,45 @@ export default {
             "La leçon a été complete avec succés.",
             "success"
           );
+          swal
+            .fire({
+              title: "Êtes-vous sûr ?",
+              text: "Go to next leçon !",
+              type: "question",
+              showCancelButton: true,
+              confirmButtonText: "Ok",
+            })
+            .then(
+              function(result) {
+                let next_lecon = -1;
+                if (result.value) {
+                  for (let i = 0; i < this.rubriques_tree.length; i++) {
+                    for (
+                      let j = 0;
+                      j < this.rubriques_tree[i].lecons.length;
+                      j++
+                    ) {
+                      if (
+                        this.course.id == this.rubriques_tree[i].lecons[j].id
+                      ) {
+                        console.log("here", this.rubriques_tree[i].lecons[j]);
+                        next_lecon = this.rubriques_tree[i].lecons[j + 1]
+                          ? this.rubriques_tree[i].lecons[j + 1].id
+                          : this.rubriques_tree[i + 1].lecons[0].id;
+                        break;
+                      }
+                    }
+                    console.log("hshs", next_lecon);
+                    if (next_lecon != -1) {
+                      console.log("ddd", next_lecon);
+                      this.showCourse(next_lecon);
+                      //this.startCourse(next_lecon);
+                    }
+                  }
+                  // this.getCourseFiltered(this.course.next_lecon);
+                }
+              }.bind(this)
+            );
           this.courseExists = false;
           this.startLearn = false;
           this.etape = null;
@@ -1825,7 +1965,6 @@ a {
   }
   svg {
     width: 30px;
-    margin-left: 5px;
   }
 
   cursor: pointer;
@@ -1892,7 +2031,7 @@ a {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        margin: 50px 0;
+        margin: 30px 0;
         width: 100%;
         .detail {
           width: 80%;
@@ -2023,7 +2162,7 @@ a {
   color: white;
 }
 .no-learn {
-  background: #e91e63 !important;
+  background: #f24a58 !important;
   color: white;
 }
 .v-carousel__controls {
@@ -2261,7 +2400,7 @@ a {
 .content-ressource {
   color: #171656;
 
-  height: 75vh;
+  height: 77vh;
   width: 80%;
   overflow-y: auto;
   padding: 60px 20px;
@@ -2453,6 +2592,7 @@ input[type="range"]:focus {
   align-items: center;
   justify-content: center;
   padding: 6px;
+  margin-right: 15px;
 }
 input[type="range"]::-webkit-slider-runnable-track {
   width: 100%;
@@ -2578,7 +2718,7 @@ input[type="range"]:focus::-ms-fill-upper {
   }
 
   #textarea {
-    font-size: 2.3rem;
+    font-size: 1.3rem;
   }
   .content-1 {
     h3 {
@@ -2618,18 +2758,17 @@ input[type="range"]:focus::-ms-fill-upper {
   .fx-course {
     .text {
       h1 {
-        font-size: 5rem;
+        font-size: 2rem;
       }
       button {
-        font-size: 3rem;
-        padding: 40px 60px;
+        font-size: 1rem;
       }
     }
   }
   .menuLevel {
     div {
       span.et-sui {
-        font-size: 1.8rem;
+        font-size: 1rem;
       }
     }
   }

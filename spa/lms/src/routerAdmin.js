@@ -151,7 +151,7 @@ const router = new VueRouter({
   mode: "history",
   base:
     document.querySelector("meta[name=base_path]").getAttribute("content") +
-    "/lms/admin/",
+    "/lms/admin",
   routes,
 });
 

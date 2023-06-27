@@ -164,6 +164,7 @@ class ContentController
 				$ressource->Type =  Request::get('type_id');
 				$ressource->Introduction =  Request::get('introduction');
 				$ressource->Lecon =  Request::get('lecon_id');
+				$ressource->Date = date('Y-m-d H:i:s');
 
 				if (!$ressource->ID)
 					$ressource->Ordre = Models\LMS\Ressource::where(array('Lecon' => $ressource->Lecon->ID))->count() + 1;
@@ -201,6 +202,9 @@ class ContentController
 				} elseif ($_POST['type_id'] == 12) {
 					$contenu->set('Content', $_POST['content']);
 					$contenu->set('Answer', $_POST['answer']);
+				} elseif ($_POST['type_id'] == 6) {
+					$contenu->set('Content', $_POST['content']);
+					$contenu->set('Answer', $_POST['answer']);
 				} else {
 					$contenu->Content =  Request::get('content');
 					$contenu->Answer =  Request::get('answer');
@@ -223,6 +227,7 @@ class ContentController
 						Upload::delete($upload_path . $contenu->File);
 					$contenu->Audio = Upload::store('audio', $upload_path);
 				}
+				$contenu->Date = date('Y-m-d H:i:s');
 
 				$contenu->save();
 
@@ -751,6 +756,9 @@ class ContentController
 					'instructions' => $_item->Instructions,
 					'objectifs' => $_item->Objectifs,
 					'prerequis' => $_item->Prerequis,
+					'percent' => $_item->getPercent(),
+					'last_content_learn' => $_item->getLastContent(),
+					'last_ressource_learn' => $_item->getLastRessource(),
 					'icone' => $_item->getIcone(),
 					'duree' => $_item->Duree ? $_item->Duree : 0,
 					'count_ressources' => Models\LMS\Ressource::where(array('Lecon' => $_item->ID))->count(),
@@ -793,6 +801,7 @@ class ContentController
 
 	public function  borne_lecon($lecon)
 	{
+		$lec = $lecon;
 		$niveaux = Models\Niveau::all();
 		$unites = Models\Unite::all();
 		$rubriques = Models\LMS\LeconRubrique::all();
@@ -864,6 +873,7 @@ class ContentController
 
 			'lecon' => [
 				'id' => $lecon->ID,
+				'next_lecon' => $lecon->nextLecon($lec),
 				'label' => $lecon->Label,
 				'introduction' => $lecon->Introduction,
 				'niveau_id' => $lecon->Niveau->ID,
@@ -944,6 +954,16 @@ class ContentController
 	}
 	// save glossary image 
 	public function saveGlossaryImage()
+	{
+		if (isset($_FILES['File']) && $_FILES['File']['error'] != UPLOAD_ERR_NO_FILE) {
+			$upload_path  = _basepath . \Config::get('path-lms-files') . '/lecons_files/';
+			$name =  Upload::store('File', $upload_path);
+		}
+		$data['path'] =  $name;
+		sendResponse($data);
+	}
+	// save text image 
+	public function saveTextImage()
 	{
 		if (isset($_FILES['File']) && $_FILES['File']['error'] != UPLOAD_ERR_NO_FILE) {
 			$upload_path  = _basepath . \Config::get('path-lms-files') . '/lecons_files/';
@@ -1293,6 +1313,7 @@ class ContentController
 		';
 
 		foreach ($lecons as $lecon) {
+
 			$lc[] = [
 				'id' => $lecon->ID,
 				'label' => $lecon->Label,
@@ -1305,7 +1326,7 @@ class ContentController
 				'instructions' => $lecon->Instructions,
 				'objectifs' => $lecon->Objectifs,
 				'prerequis' => $lecon->Prerequis,
-				'duree' => $lecon->Duree ? $lecon->Duree : 0,
+				'duree' => $lecon->getRessourcesDuree(),
 				'code' => $lecon->Code,
 				'enabled' => $lecon->Enabled,
 
@@ -1321,13 +1342,13 @@ class ContentController
 			$rubrique = $l['rubrique_id']->Label ?? 'none';
 
 			$output .= '<tr>
-			<th>' . $niveau . '</th>
-			<th>' . $matiere . '</th>
-            <th>' . $l['label']  . '</th>
-            <th>' . $unite  . '</th>
-            <th>' . $rubrique  . '</th>
-            <th>' . $l['introduction']  . '</th>
-            <th>' . $l['duree']  . '</th>
+			<th>' . html($niveau) . '</th>
+			<th>' . html($matiere) . '</th>
+            <th>' . html($l['label'])  . '</th>
+            <th>' . html($unite)  . '</th>
+            <th>' . html($rubrique)  . '</th>
+            <th>' . html($l['introduction'])  . '</th>
+            <th>' . html($l['duree'])  . ' min</th>
             </tr>';
 		}
 		$output .= ' </table>';
@@ -1362,7 +1383,7 @@ class ContentController
 			$i++;
 			$output .= '<tr>
 			<th>' . $i . '</th>
-			<th>' . $rub->Label ?? 'none' . '</th>
+			<th>' . html($rub->Label) ?? '---' . '</th>
             </tr>';
 		}
 		$output .= ' </table>';
