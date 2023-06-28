@@ -42,14 +42,14 @@ export default {
 
 <style lang="scss">
 .question {
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin-bottom: 5px;
   width: 100%;
 }
 @media (min-width: 1500px) {
   .wrapper-ress {
     .question {
-      font-size: 3.5rem;
+      font-size: 1.5rem;
       margin: 0;
     }
   }

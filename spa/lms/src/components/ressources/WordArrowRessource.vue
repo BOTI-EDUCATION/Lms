@@ -9,11 +9,17 @@
           <template v-for="(item, index) in ressource.content">
             <div class="col" :key="index">
               <div class="word-complete-struct">
-                <span class="word-content" style="display: block;width: 49%;white-space: nowrap;overflow-x: auto;text-align: initial;">{{ item.content }} :</span>
+                <span
+                  class="word-content"
+                  style="display: block;width: 49%;white-space: nowrap;overflow-x: auto;text-align: initial;"
+                  >{{ item.content }} :</span
+                >
                 <!-- <div style="font-size: 2rem;display: flex;margin-right: 15px;">
                   
                 </div> -->
-                <span class="word-answer col-4" style="overflow-x: auto;">{{ item.firstanswer }}</span>
+                <span class="word-answer col-4" style="overflow-x: auto;">{{
+                  item.firstanswer
+                }}</span>
                 <span class="col-2" style="">
                   <svg
                     fill="#000000"
@@ -39,7 +45,9 @@
                   </svg>
                 </span>
 
-                <span class="word-answer col-4" style="overflow-x: auto;">{{ item.secondanswer }}</span>
+                <span class="word-answer col-4" style="overflow-x: auto;">{{
+                  item.secondanswer
+                }}</span>
               </div>
             </div>
           </template>
@@ -73,12 +81,12 @@ export default {
   height: 7vh;
 }
 .word-content {
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 .word-answer {
   border: 1px solid #d4d4d4;
   border-radius: 5px;
-  font-size: 2rem;
+  font-size: 1.5rem;
   min-height: 50px;
   display: block;
 }

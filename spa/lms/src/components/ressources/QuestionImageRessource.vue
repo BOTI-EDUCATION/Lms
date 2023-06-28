@@ -154,24 +154,31 @@ export default {
         ctx.lineCap = "round";
 
         // ctx.lineTo(e.clientX - canvasOffsetX, e.clientY - canvasOffsetY);
-        ctx.lineTo(e.clientX + canvasOffsetX, e.clientY + canvasOffsetY);
-        console.log(e.clientX, e.clientY);
+        // ctx.lineTo(e.clientX + canvasOffsetX, e.clientY + canvasOffsetY);
+        ctx.lineTo(e.offsetX + canvasOffsetX, e.offsetY + canvasOffsetY);
+        console.log(e.offsetX, e.offsetY);
         ctx.stroke();
       };
 
-      canvas.addEventListener("mousedown", (e) => {
+      canvas.addEventListener("pointerdown", (e) => {
+        console.log(e);
         isPainting = true;
-        startX = e.clientX;
-        startY = e.clientY;
+        startX = e.offsetX;
+        startY = e.offsetY;
       });
+      // canvas.addEventListener("mousedown", (e) => {
+      //   isPainting = true;
+      //   startX = e.clientX;
+      //   startY = e.clientY;
+      // });
 
-      canvas.addEventListener("mouseup", (e) => {
+      canvas.addEventListener("pointerup", (e) => {
         isPainting = false;
         ctx.stroke();
         ctx.beginPath();
       });
 
-      canvas.addEventListener("mousemove", draw);
+      canvas.addEventListener("pointermove", draw);
 
       const sizeElement = document.querySelector("#sizeRange");
       let size = sizeElement.value;

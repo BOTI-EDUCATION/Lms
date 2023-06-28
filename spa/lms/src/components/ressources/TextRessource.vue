@@ -69,16 +69,16 @@
       </template>
     </div>
 
+    <!-- style="text-align: left !important;width: 60%;" -->
     <textarea
       v-if="ressource.content && ressource.content.text"
-      style="text-align: left !important;width: 60%;"
-      id="textarea"
       v-bind:style="[
-        ressource.content.images.length > 1
+        ressource.content.images.length > 0
           ? ''
           : { 'text-align': 'center !important' },
-        ressource.content.images.length > 1 ? '' : { width: '100%' },
+        ressource.content.images.length > 0 ? '' : { width: '100%' },
       ]"
+      id="textarea"
       readonly
       v-html="
         ressource.content.text

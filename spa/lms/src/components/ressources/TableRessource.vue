@@ -13,7 +13,7 @@
             <tr>
               <th
                 class="text-center"
-                style="font-size: 2rem;color: #171656;min-width: 200px"
+                style="font-size: 1.5rem;color: #171656;min-width: 200px"
                 v-for="(col, y) in ressource.content.rows[0].row"
                 :key="y"
               >

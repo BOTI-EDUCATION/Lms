@@ -687,11 +687,32 @@
       <div class="zone">
         <div v-if="!courseExists" class="fx filter">
           <div
+            @click="isProfileClicked = !isProfileClicked"
             class="symbol-label user-image"
+            style="position: relative;cursor: pointer;"
             v-bind:style="{
               'background-image': 'url(' + $session.user.image + ')',
             }"
-          ></div>
+          >
+            <div
+              v-show="isProfileClicked"
+              style="position: absolute;
+              top: -125px;
+              background: white;
+              width: 200px;
+              box-shadow: rgba(0, 0, 0, 0.45) 0px 0px 1px;
+              left: 65px;
+              height: 100px;
+              padding: 5px;
+              border-radius: 5px;"
+            >
+              <ul>
+                <li>
+                  <a :href="logout">Login</a>
+                </li>
+              </ul>
+            </div>
+          </div>
           <button
             :class="{ 'active-navs': this.showNavigationLevel }"
             class="menuLevel filter-menu"
@@ -1193,6 +1214,11 @@ export default {
       url: "borne_home",
       fullScreen: false,
       loaded: false,
+      isProfileClicked: false,
+      logout:
+        window.document
+          .querySelector("meta[name=base_api]")
+          .getAttribute("content") + "login?logout",
       entered: false,
       zoomOnImage: false,
       course: null,
@@ -2682,6 +2708,7 @@ input[type="range"]:focus::-ms-fill-upper {
   font-size: 1.3rem;
 }
 .html {
+  font-size: 1.5rem;
   li {
     cursor: initial;
     list-style: inside;
@@ -2750,7 +2777,7 @@ input[type="range"]:focus::-ms-fill-upper {
     width: 98%;
     overflow-y: auto;
     .html {
-      font-size: 4rem;
+      font-size: 1.5rem;
       overflow: auto;
     }
   }

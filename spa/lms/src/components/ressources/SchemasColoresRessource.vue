@@ -46,6 +46,7 @@ export default {
 .word-answer {
   height: 88%;
   width: 100%;
+
   display: block;
   line-break: anywhere;
   border: none;

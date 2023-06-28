@@ -2,7 +2,12 @@
   <div class="content-ressource" style="justify-content: center;">
     <div style="position: relative;overflow-x: hidden;">
       <div class="wrapper-ress" style="justify-content: flex-start;">
-        <div class="question" style="margin-top: 100px;">
+        <div
+          class="question"
+          style="margin-top: 100px;
+    font-size: 1.5rem;
+"
+        >
           {{ ressource.answer }}
         </div>
         <div class="structure-complete">
@@ -11,11 +16,13 @@
             v-for="(con, i) in ressource.content"
             :key="i"
           >
-            <span style="margin-right: 15px;">{{ con.content }}</span>
+            <span style="margin-right: 15px;font-size: 1.5rem;">{{
+              con.content
+            }}</span>
             <input
               type="text"
               :value="con.answer"
-              style="color: white;border-radius: 15px;width: 30%;height: 10vh;overflow-x: auto;font-weight: 600;font-size: 3rem;"
+              style="color: white;border-radius: 15px;width: 30%;height: 10vh;overflow-x: auto;font-weight: 600;font-size: 1.5rem;"
               class="form-control form-control-solid structureAnswer"
             />
           </div>

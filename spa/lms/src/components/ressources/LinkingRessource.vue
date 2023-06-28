@@ -2,7 +2,7 @@
   <div class="content-ressource">
     <div class="container" style="position: relative;">
       <div class="wrapper-ress">
-        <div class="question">
+        <div class="question" style="font-size: 1.5rem;">
           {{ ressource.answer }}
         </div>
         <div
@@ -17,7 +17,10 @@
                 style="flex-direction: column-reverse;align-items: end;width: 100%;"
                 :key="index"
               >
-                <span>{{ item.content }}</span>
+                <span
+                  style="font-size: 1.3rem;font-weight: 600;height: fit-content;display: block;line-height: 1.6;"
+                  >{{ item.content }}</span
+                >
               </div>
             </template>
           </div>
@@ -82,7 +85,16 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.question {
+  font-size: 1.5rem;
+}
+.an {
+  font-weight: 600;
+  height: fit-content;
+  display: block;
+  line-height: 1.6;
+}
 .ll-col {
   display: flex;
   width: 215px;
